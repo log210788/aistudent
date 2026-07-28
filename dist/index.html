@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FutureMind AI @ School — Student Voice & Survey Portal</title>
+  <meta name="description" content="Discover how students use AI in school, find your AI Student Persona, voice your opinions, and join the nationwide student survey powered by Firebase." />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <script type="module" crossorigin src="./assets/index-BANdeyUJ.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BmyrkQN7.css">
+</head>
+<body>
+  <!-- Ambient Background Orbs -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Top Navigation -->
+  <header class="navbar-header">
+    <div class="nav-container">
+      <a href="#" class="brand-logo">
+        <div class="logo-icon"><i class="fa-solid fa-brain-circuit"></i></div>
+        <span class="logo-text">FutureMind <span class="accent-text">AI@School</span></span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="#hero" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="#quiz-section" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Quiz</a>
+        <a href="#survey-section" class="nav-link"><i class="fa-solid fa-clipboard-question"></i> Survey</a>
+        <a href="#dashboard-section" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Live Pulse</a>
+        <a href="#vibes-section" class="nav-link"><i class="fa-solid fa-comments"></i> Vibe Wall</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="firebase-status-btn" class="firebase-badge-btn" title="Click to view/configure Firebase settings">
+          <span class="status-dot offline" id="fb-status-dot"></span>
+          <span id="fb-status-text">Local Storage</span>
+          <i class="fa-solid fa-gear"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+      <div class="section-container hero-grid">
+        <div class="hero-content">
+          <div class="hero-tag">
+            <span class="sparkle"><i class="fa-solid fa-bolt"></i></span>
+            <span>2026 Student AI Voice Initiative</span>
+          </div>
+          <h1 class="hero-title">
+            How is <span class="gradient-text">AI Changing</span> Your School Life?
+          </h1>
+          <p class="hero-description">
+            From writing essays and solving math problems to ethics and cheating debates—tell us your real story. Take our quick interactive quiz, submit your survey, and save your spot in the future student registry!
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#quiz-section" class="btn btn-primary btn-glow">
+              <i class="fa-solid fa-gamepad"></i> Find Your AI Vibe
+            </a>
+            <a href="#survey-section" class="btn btn-secondary">
+              <i class="fa-solid fa-paper-plane"></i> Take 1-Min Survey
+            </a>
+          </div>
+
+          <div class="hero-stats-banner">
+            <div class="stat-pill">
+              <span class="stat-num" id="hero-count-num">1,240+</span>
+              <span class="stat-lbl">Student Opinions Collected</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-num">88%</span>
+              <span class="stat-lbl">Use AI Weekly</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-media">
+          <div class="hero-frame">
+            <img src="./hero-ai.jpg" alt="Students using AI at school" class="hero-img" />
+            <div class="glass-floating-card card-top-right">
+              <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
+              <div>
+                <h4>Top Tool at School</h4>
+                <p>ChatGPT & Gemini (74%)</p>
+              </div>
+            </div>
+            <div class="glass-floating-card card-bottom-left">
+              <div class="card-icon cyan"><i class="fa-solid fa-shield-halved"></i></div>
+              <div>
+                <h4>Firebase Secured</h4>
+                <p>Emails stored in Cloud DB</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz-section" class="quiz-section">
+      <div class="section-container">
+        <div class="section-header text-center">
+          <span class="badge-sub">Interactive Game</span>
+          <h2>What Type of <span class="gradient-text">AI Student</span> Are You?</h2>
+          <p>Answer 4 quick scenarios to unlock your official AI persona badge!</p>
+        </div>
+
+        <div class="quiz-card glass-card">
+          <div id="quiz-progress-bar" class="quiz-progress">
+            <div class="progress-fill" id="quiz-progress-fill" style="width: 25%;"></div>
+          </div>
+
+          <!-- Quiz Container -->
+          <div id="quiz-body">
+            <!-- Questions rendered via JS -->
+          </div>
+
+          <!-- Quiz Result Card (Hidden by default) -->
+          <div id="quiz-result" class="quiz-result-box hidden">
+            <div class="result-badge-anim">
+              <i id="result-icon" class="fa-solid fa-crown"></i>
+            </div>
+            <span class="result-tag">Your AI Persona</span>
+            <h3 id="result-title" class="result-title-text">The Prompt Wizard</h3>
+            <p id="result-desc" class="result-desc-text">You treat AI like your personal magic wand. Homework gets done in record time!</p>
+
+            <div class="result-actions">
+              <button id="retake-quiz-btn" class="btn btn-outline">
+                <i class="fa-solid fa-rotate-right"></i> Retake Quiz
+              </button>
+              <a href="#survey-section" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-down"></i> Next: Fill Out Survey
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Survey & Email Collection Section -->
+    <section id="survey-section" class="survey-section">
+      <div class="section-container">
+        <div class="survey-wrapper grid-2-col">
+
+          <div class="survey-info">
+            <span class="badge-sub">National Student Survey</span>
+            <h2>Make Your Voice Heard on <span class="gradient-text">AI in Education</span></h2>
+            <p>
+              Should teachers use AI to grade? Should AI be allowed during exams? Is AI making students smarter or lazier?
+            </p>
+            <p>
+              Fill out this official survey. Your email will be logged in our <strong>Firebase Cloud Database</strong> so you get early access to final report infographics & rewards!
+            </p>
+
+            <div class="info-features">
+              <div class="feature-item">
+                <div class="feature-icon"><i class="fa-solid fa-database"></i></div>
+                <div>
+                  <h4>Firebase Firestore Storage</h4>
+                  <p>All responses and emails are synced live to the database.</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon violet"><i class="fa-solid fa-user-secret"></i></div>
+                <div>
+                  <h4>Privacy Controls</h4>
+                  <p>Optionally display your micro-thoughts on our Student Vibe Wall!</p>
+                </div>
+              </div>
+
+              <div class="feature-item">
+                <div class="feature-icon emerald"><i class="fa-solid fa-trophy"></i></div>
+                <div>
+                  <h4>Unlock Badge</h4>
+                  <p>Earn the AI Pioneer Digital Badge upon completion.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Container -->
+          <div class="survey-form-card glass-card">
+            <form id="ai-survey-form">
+              <div class="form-header">
+                <h3><i class="fa-solid fa-pen-nib"></i> Student Survey Form</h3>
+                <span class="form-step-count">Quick 1-Minute</span>
+              </div>
+
+              <div class="form-group">
+                <label for="student-email">
+                  <i class="fa-solid fa-envelope"></i> Your Email Address <span class="req">*</span>
+                </label>
+                <input 
+                  type="email" 
+                  id="student-email" 
+                  name="email" 
+                  placeholder="alex.student@school.edu" 
+                  required 
+                />
+                <span class="input-hint">We will store this safely in our Firebase database!</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="grade-level"><i class="fa-solid fa-graduation-cap"></i> School Level</label>
+                  <select id="grade-level" name="gradeLevel" required>
+                    <option value="High School">High School (Grades 9-12)</option>
+                    <option value="Middle School">Middle School (Grades 6-8)</option>
+                    <option value="College/University">College / University</option>
+                    <option value="Educator/Teacher">Educator / Teacher</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="ai-frequency"><i class="fa-solid fa-clock"></i> AI Usage Frequency</label>
+                  <select id="ai-frequency" name="frequency" required>
+                    <option value="Every Day">Every Day for Homework & Study</option>
+                    <option value="3-4 Times a Week">3-4 Times a Week</option>
+                    <option value="Rarely / For Big Projects">Rarely / Only for Big Projects</option>
+                    <option value="Never">Never used AI before</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fa-solid fa-screwdrivers-all"></i> What AI Tools Do You Use? (Select all that apply)</label>
+                <div class="tools-checkbox-grid">
+                  <label class="checkbox-pill">
+                    <input type="checkbox" name="tools" value="ChatGPT" checked>
+                    <span><i class="fa-solid fa-robot"></i> ChatGPT</span>
+                  </label>
+                  <label class="checkbox-pill">
+                    <input type="checkbox" name="tools" value="Google Gemini" checked>
+                    <span><i class="fa-solid fa-sparkles"></i> Google Gemini</span>
+                  </label>
+                  <label class="checkbox-pill">
+                    <input type="checkbox" name="tools" value="Claude">
+                    <span><i class="fa-solid fa-brain"></i> Claude</span>
+                  </label>
+                  <label class="checkbox-pill">
+                    <input type="checkbox" name="tools" value="Canva / Midjourney AI">
+                    <span><i class="fa-solid fa-image"></i> Midjourney / Canva AI</span>
+                  </label>
+                  <label class="checkbox-pill">
+                    <input type="checkbox" name="tools" value="Photomath / Solvers">
+                    <span><i class="fa-solid fa-calculator"></i> Photomath / Solvers</span>
+                  </label>
+                  <label class="checkbox-pill">
+                    <input type="checkbox" name="tools" value="Notion AI / GitHub Copilot">
+                    <span><i class="fa-solid fa-code"></i> Notion AI / Copilot</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="exam-policy"><i class="fa-solid fa-gavel"></i> Should AI be allowed in exams & tests?</label>
+                <select id="exam-policy" name="examPolicy" required>
+                  <option value="Allowed for research & drafting">Allowed for research & drafting only</option>
+                  <option value="Allowed with open declaration">Fully allowed if declared transparently</option>
+                  <option value="Only math/calculator style AI">Only specific calculator/math AI tools</option>
+                  <option value="Banned completely">Strictly banned in exam halls</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fa-solid fa-star"></i> Overall AI Rating in School (1 = Distraction, 5 = Essential Tool)</label>
+                <div class="star-rating" id="star-rating-box">
+                  <i class="fa-solid fa-star star active" data-val="1"></i>
+                  <i class="fa-solid fa-star star active" data-val="2"></i>
+                  <i class="fa-solid fa-star star active" data-val="3"></i>
+                  <i class="fa-solid fa-star star active" data-val="4"></i>
+                  <i class="fa-solid fa-star star" data-val="5"></i>
+                  <span class="rating-value" id="star-score-text">4 / 5</span>
+                </div>
+                <input type="hidden" id="rating-input" name="rating" value="4" />
+              </div>
+
+              <div class="form-group">
+                <label for="student-thought"><i class="fa-solid fa-comment-dots"></i> What's your hottest take or story on AI in school?</label>
+                <textarea 
+                  id="student-thought" 
+                  name="thought" 
+                  rows="3" 
+                  placeholder="e.g. AI helped me understand organic chemistry in 10 minutes when my textbook failed me..." 
+                  required
+                ></textarea>
+              </div>
+
+              <div class="form-group checkbox-row">
+                <label class="toggle-label">
+                  <input type="checkbox" id="public-vibe-check" name="publicVibe" checked />
+                  <span class="toggle-custom"></span>
+                  <span>Share my quote anonymously on the Student Vibe Wall</span>
+                </label>
+              </div>
+
+              <button type="submit" id="submit-survey-btn" class="btn btn-primary btn-block btn-glow">
+                <i class="fa-solid fa-paper-plane"></i> Submit & Save to Database
+              </button>
+            </form>
+
+            <div id="survey-success" class="survey-success-box hidden">
+              <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+              <h3>Submitted to Database! 🎉</h3>
+              <p>Your email <strong id="submitted-email-text"></strong> and survey responses were successfully saved to our Firebase Cloud Database.</p>
+              <div class="success-badge">
+                <i class="fa-solid fa-award"></i> Registered AI Pioneer #<span id="registered-id">8492</span>
+              </div>
+              <button id="another-response-btn" class="btn btn-secondary">Submit Another Response</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Live Pulse Dashboard Section -->
+    <section id="dashboard-section" class="dashboard-section">
+      <div class="section-container">
+        <div class="section-header text-center">
+          <span class="badge-sub">Live Analytics</span>
+          <h2>School AI <span class="gradient-text">Pulse & Sentiment</span></h2>
+          <p>Real-time aggregated results from students nationwide.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Card 1: AI Frequency Distribution -->
+          <div class="dashboard-card glass-card">
+            <div class="dash-header">
+              <h3><i class="fa-solid fa-chart-column"></i> How Often Students Use AI</h3>
+              <span class="dash-tag">Live Feed</span>
+            </div>
+            <div class="bar-chart-list" id="freq-chart-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Card 2: Top AI Tools Leaderboard -->
+          <div class="dashboard-card glass-card">
+            <div class="dash-header">
+              <h3><i class="fa-solid fa-trophy"></i> Most Popular Student AI Tools</h3>
+              <span class="dash-tag">Rankings</span>
+            </div>
+            <div class="tool-rank-list" id="tool-rank-list">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Card 3: Exam Stance Breakdown -->
+          <div class="dashboard-card glass-card">
+            <div class="dash-header">
+              <h3><i class="fa-solid fa-gavel"></i> Exam AI Policy Votes</h3>
+              <span class="dash-tag">Student Verdict</span>
+            </div>
+            <div class="stance-container" id="stance-container">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Student Vibe Wall Section -->
+    <section id="vibes-section" class="vibes-section">
+      <div class="section-container">
+        <div class="section-header text-center">
+          <span class="badge-sub">Community Feed</span>
+          <h2>The <span class="gradient-text">Student Vibe Wall</span></h2>
+          <p>Unfiltered quotes and hot takes directly from real students!</p>
+        </div>
+
+        <div class="vibe-cards-grid" id="vibe-cards-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Firebase Configuration Modal -->
+  <div id="firebase-modal" class="modal-overlay hidden">
+    <div class="modal-card glass-card">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-database"></i> Firebase Database Setup</h3>
+        <button id="close-modal-btn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-intro">
+          This site currently operates with <strong>Smart Local Fallback</strong>. All survey answers and emails are saved in browser state.
+        </p>
+        <p class="modal-intro">
+          To sync live to your own <strong>Firebase Cloud Firestore</strong>, paste your Firebase web project configuration snippet below:
+        </p>
+
+        <form id="firebase-config-form">
+          <div class="form-group">
+            <label for="fb-apiKey">API Key</label>
+            <input type="text" id="fb-apiKey" placeholder="AIzaSy..." />
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fb-authDomain">Auth Domain</label>
+              <input type="text" id="fb-authDomain" placeholder="my-app.firebaseapp.com" />
+            </div>
+            <div class="form-group">
+              <label for="fb-projectId">Project ID</label>
+              <input type="text" id="fb-projectId" placeholder="my-app-id" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fb-storageBucket">Storage Bucket</label>
+              <input type="text" id="fb-storageBucket" placeholder="my-app.appspot.com" />
+            </div>
+            <div class="form-group">
+              <label for="fb-appId">App ID</label>
+              <input type="text" id="fb-appId" placeholder="1:123456:web:abcd..." />
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" id="use-demo-db-btn" class="btn btn-outline">
+              <i class="fa-solid fa-bolt"></i> Use Local Storage (Demo)
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="fa-solid fa-floppy-disk"></i> Save & Connect Firebase
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <div class="logo-icon"><i class="fa-solid fa-brain-circuit"></i></div>
+        <span>FutureMind AI @ School</span>
+      </div>
+      <p class="footer-copy">© 2026 Student AI Voice & Research Project. Built with Firebase & Vite.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
