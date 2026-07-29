@@ -43,6 +43,19 @@
   --font-mono: 'JetBrains Mono', monospace;
 }
 
+a {
+  color: var(--accent-indigo-light);
+  text-decoration: underline;
+  cursor: pointer !important;
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10;
+  transition: color 0.2s ease;
+}
+a:hover {
+  color: #a5b4fc;
+}
+
 /* Light Theme Variables Override */
 body.light-theme {
   --bg-primary: #f1f5f9;
