@@ -1,516 +1,459 @@
-// ==========================================================================
-// FUTUREMIND AI @ SCHOOL - MAIN APPLICATION LOGIC
-// ==========================================================================
+/* ==========================================================================
+   IELTS Speaking Masterclass - JavaScript Interactive App Engine
+   ========================================================================== */
 
-import { 
-  initFirebaseStorage, 
-  getFirebaseStatus, 
-  getSavedFirebaseConfig, 
-  saveFirebaseConfig, 
-  clearFirebaseConfig, 
-  saveSurveySubmission, 
-  subscribeToSurveys 
-} from "./firebase-config.js";
-
-// Quiz Data Structure
-const QUIZ_QUESTIONS = [
+// 1. DATA VAULT - Upgrade Vocabulary Database
+const UPGRADE_VAULT_DATA = [
   {
     id: 1,
-    question: "How do you start writing a 1,000-word history essay?",
-    options: [
-      { text: "Ask ChatGPT for an outline & key points", persona: "wizard", icon: "fa-wand-magic-sparkles" },
-      { text: "Use Claude to debate both sides of the topic", persona: "pioneer", icon: "fa-brain" },
-      { text: "Use Canva/AI to design a visual presentation first", persona: "creative", icon: "fa-palette" },
-      { text: "Write it 100% by myself in Google Docs", persona: "skeptic", icon: "fa-pen" }
-    ]
+    category: 'places',
+    topic: 'Places & Food',
+    basic: 'The city is very crowded and busy.',
+    upgrade: 'It’s a bustling metropolis with a vibrant nightlife.',
+    definition: 'A vibrant, energetic large city filled with activity after dark.',
+    band: 'Band 8.0+'
   },
   {
     id: 2,
-    question: "You hit a brick wall on a hard Math homework problem. You...",
-    options: [
-      { text: "Scan it with Photomath or Gemini for step-by-step logic", persona: "wizard", icon: "fa-calculator" },
-      { text: "Prompt AI to act as a Socrates-style tutor", persona: "pioneer", icon: "fa-graduation-cap" },
-      { text: "Generate a custom visual diagram with AI", persona: "creative", icon: "fa-image" },
-      { text: "Re-read textbook notes until I get it", persona: "skeptic", icon: "fa-book" }
-    ]
+    category: 'places',
+    topic: 'Places & Food',
+    basic: 'The food is very delicious.',
+    upgrade: 'It’s mouth-watering / full of flavor.',
+    definition: 'Extremely appetizing in taste or smell, rich in herbs and spices.',
+    band: 'Band 7.5+'
   },
   {
     id: 3,
-    question: "What's your main rule for using AI on school projects?",
-    options: [
-      { text: "Speed is king: finish homework faster so I can relax!", persona: "wizard", icon: "fa-bolt" },
-      { text: "Learn how AI models work & push their limits", persona: "pioneer", icon: "fa-microchip" },
-      { text: "Combine human creativity with AI magic", persona: "creative", icon: "fa-sparkles" },
-      { text: "Keep AI strictly as an optional research aid", persona: "skeptic", icon: "fa-shield-halved" }
-    ]
+    category: 'places',
+    topic: 'Places & Food',
+    basic: 'It’s quiet and peaceful.',
+    upgrade: 'It’s a serene place, perfect to escape the hustle and bustle.',
+    definition: 'Calm, tranquil location ideal for avoiding noisy urban stress.',
+    band: 'Band 8.0+'
   },
   {
     id: 4,
-    question: "What do you think of AI detectors used by teachers?",
-    options: [
-      { text: "They get false positives all the time!", persona: "wizard", icon: "fa-triangle-exclamation" },
-      { text: "We need better AI literacy instead of detector bans", persona: "pioneer", icon: "fa-lightbulb" },
-      { text: "They limit creative storytelling styles", persona: "creative", icon: "fa-feather" },
-      { text: "Fair turn-in tools protect academic integrity", persona: "skeptic", icon: "fa-scale-balanced" }
-    ]
+    category: 'places',
+    topic: 'Places & Geography',
+    basic: 'My town is near Bangkok.',
+    upgrade: 'My town is in close proximity to Bangkok.',
+    definition: 'Nearness in space; situated closely to a major city.',
+    band: 'Band 7.5+'
+  },
+  {
+    id: 5,
+    category: 'places',
+    topic: 'Geography & Food',
+    basic: 'The food has many herbs.',
+    upgrade: 'The local cuisine comprises a variety of herbs.',
+    definition: 'Includes or consists of specific regional culinary elements.',
+    band: 'Band 7.5+'
+  },
+  {
+    id: 6,
+    category: 'freetime',
+    topic: 'Free Time & Hobbies',
+    basic: 'I really like listening to music.',
+    upgrade: 'I’m a big fan of listening to music; it helps me unwind.',
+    definition: 'Passionate about an activity which helps reduce mental stress.',
+    band: 'Band 7.5+'
+  },
+  {
+    id: 7,
+    category: 'freetime',
+    topic: 'Free Time & Hobbies',
+    basic: 'It makes me feel happy/relaxed.',
+    upgrade: 'It’s a great way to recharge my batteries or decompress.',
+    definition: 'To regain energy and vitality after exhausting work.',
+    band: 'Band 8.0+'
+  },
+  {
+    id: 8,
+    category: 'freetime',
+    topic: 'Free Time & Hobbies',
+    basic: 'I do it when I have time.',
+    upgrade: 'I try to fit it in once in a blue moon / whenever I have a spare moment.',
+    definition: 'Rarely, or whenever brief free time becomes available.',
+    band: 'Band 8.0+'
+  },
+  {
+    id: 9,
+    category: 'work',
+    topic: 'Work, Study & Life',
+    basic: 'I have a lot of work / hard work.',
+    upgrade: 'I have a heavy workload / it’s quite demanding.',
+    definition: 'A large amount of task responsibility requiring high effort.',
+    band: 'Band 7.5+'
+  },
+  {
+    id: 10,
+    category: 'work',
+    topic: 'Work, Study & Life',
+    basic: 'It’s very difficult.',
+    upgrade: 'It can be quite challenging / a steep learning curve.',
+    definition: 'Demanding skills to overcome or requiring rapid new learning.',
+    band: 'Band 8.0+'
   }
 ];
 
-const PERSONAS = {
-  wizard: {
-    title: "The Prompt Wizard 🧙‍♂️",
-    desc: "You are a master of efficiency! You know exactly how to craft the perfect prompt to outline essays, summarize readings, and save hours of homework time.",
-    icon: "fa-wand-magic-sparkles"
+// Interactive Generator Sentences
+const GENERATOR_MAPPINGS = {
+  "1": {
+    basic: "The city is very crowded and busy.",
+    upgrade: "It's a bustling metropolis with a vibrant nightlife.",
+    breakdown: [
+      { token: "crowded and busy", replacement: "bustling metropolis", note: "Precise urban collocation" },
+      { token: "city", replacement: "metropolis / cosmopolitan hub", note: "High-level noun" }
+    ],
+    example: "Bangkok is a bustling metropolis with a vibrant nightlife that draws tourists worldwide."
   },
-  pioneer: {
-    title: "The Future Pioneer 🚀",
-    desc: "You look under the hood! You treat AI as an intellectual partner, testing new models, coding scripts, and pushing technological boundaries in school.",
-    icon: "fa-rocket"
+  "2": {
+    basic: "The food is very delicious.",
+    upgrade: "It's mouth-watering / full of flavor.",
+    breakdown: [
+      { token: "delicious", replacement: "mouth-watering", note: "Evocative adjective" },
+      { token: "has herbs", replacement: "comprises a variety of herbs", note: "Formal verb usage" }
+    ],
+    example: "The local Thai cuisine comprises a variety of herbs, making every dish mouth-watering."
   },
-  creative: {
-    title: "The Creative Explorer 🎨",
-    desc: "You blend human imagination with AI tools! From generating concept art to brainstorming story ideas, AI is your ultimate creative canvas.",
-    icon: "fa-palette"
+  "3": {
+    basic: "It's quiet and peaceful.",
+    upgrade: "It's a serene place, perfect to escape the hustle and bustle.",
+    breakdown: [
+      { token: "quiet and peaceful", replacement: "serene place", note: "Band 8 adjective" },
+      { token: "get away from noise", replacement: "escape the hustle and bustle", note: "Classic IELTS idiom" }
+    ],
+    example: "Visiting Suan Luang park is a serene experience, allowing me to escape the hustle and bustle."
   },
-  skeptic: {
-    title: "The Ethical Guardian 🛡️",
-    desc: "You value deep learning and academic integrity above shortcuts. You use AI cautiously and believe human critical thinking must always come first.",
-    icon: "fa-shield-halved"
+  "4": {
+    basic: "I really like listening to music.",
+    upgrade: "I'm a big fan of listening to music; it helps me unwind.",
+    breakdown: [
+      { token: "really like", replacement: "a big fan of", note: "Natural idiomatic opener" },
+      { token: "relax", replacement: "unwind (/waɪnd/)", note: "Pronunciation key: long 'i'" }
+    ],
+    example: "I'm a big fan of jazz music because it really helps me unwind after a demanding day."
+  },
+  "5": {
+    basic: "It makes me feel happy/relaxed.",
+    upgrade: "It's a great way to recharge my batteries or decompress.",
+    breakdown: [
+      { token: "happy/relaxed", replacement: "recharge my batteries", note: "Energy idiom" },
+      { token: "rest", replacement: "decompress", note: "Sophisticated verb" }
+    ],
+    example: "Taking a weekend stroll is an ideal way to recharge my batteries before Monday."
+  },
+  "6": {
+    basic: "I have a lot of work / hard work.",
+    upgrade: "I have a heavy workload / it's quite demanding.",
+    breakdown: [
+      { token: "a lot of work", replacement: "heavy workload", note: "Collocation" },
+      { token: "hard work", replacement: "demanding", note: "Adjective upgrade" }
+    ],
+    example: "Managing multiple projects means I have a heavy workload, which can be demanding."
+  },
+  "7": {
+    basic: "It's very difficult.",
+    upgrade: "It can be quite challenging / a steep learning curve.",
+    breakdown: [
+      { token: "very difficult", replacement: "steep learning curve", note: "Idiomatic expression" },
+      { token: "hard", replacement: "challenging", note: "Professional tone" }
+    ],
+    example: "Adapting to advanced IELTS vocabulary presents a steep learning curve, but it's rewarding."
   }
 };
 
-// Application State
-let currentQuestionIndex = 0;
-let userAnswers = [];
+// 2. STATE MANAGEMENT
+let timerInterval = null;
+let currentTimerSeconds = 60;
+let initialTimerSeconds = 60;
+let isTimerRunning = false;
 
-// DOM Element References
-document.addEventListener("DOMContentLoaded", () => {
-  // Initialize Storage Engine
-  const isOnline = initFirebaseStorage();
-  updateFirebaseStatusUI(isOnline);
-
-  // Initialize Modules
-  initNavbarScroll();
-  initQuiz();
-  initStarRating();
-  initSurveyForm();
-  initFirebaseModal();
-
-  // Subscribe to DB updates for real-time dashboard & vibe wall
-  subscribeToSurveys((surveys) => {
-    updateDashboardUI(surveys);
-    updateVibeWallUI(surveys);
-    updateHeroCount(surveys.length);
-  });
+// 3. DOM LOADED INITIALIZATION
+document.addEventListener('DOMContentLoaded', () => {
+  initTabs();
+  initAccordions();
+  initTTS();
+  initVaultGrid();
+  initTimer();
+  initGenerator();
+  initTheme();
+  initHomeworkStorage();
+  initPrint();
 });
 
-/* ==========================================================================
-   NAVIGATION & SCROLL EFFECTS
-   ========================================================================== */
-function initNavbarScroll() {
-  const links = document.querySelectorAll(".nav-link");
-  window.addEventListener("scroll", () => {
-    let current = "";
-    const sections = document.querySelectorAll("section");
-    sections.forEach((sec) => {
-      const top = sec.offsetTop - 100;
-      if (window.scrollY >= top) {
-        current = sec.getAttribute("id");
-      }
-    });
+// --- Tab Navigation System ---
+function initTabs() {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
 
-    links.forEach((link) => {
-      link.classList.remove("active");
-      if (link.getAttribute("href") === `#${current}`) {
-        link.classList.add("active");
-      }
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      const targetEl = document.getElementById(targetTab);
+      if (targetEl) targetEl.classList.add('active');
     });
   });
+
+  // Shortcut button from Phase 4 card preview to simulator tab
+  const startPart2Btn = document.querySelector('.start-part2-btn');
+  if (startPart2Btn) {
+    startPart2Btn.addEventListener('click', () => {
+      const part2TabBtn = document.querySelector('.tab-btn[data-tab="part2-drill"]');
+      if (part2TabBtn) part2TabBtn.click();
+    });
+  }
 }
 
-/* ==========================================================================
-   AI PERSONA QUIZ ENGINE
-   ========================================================================== */
-function initQuiz() {
-  currentQuestionIndex = 0;
-  userAnswers = [];
-  renderQuestion();
-
-  document.getElementById("retake-quiz-btn")?.addEventListener("click", () => {
-    currentQuestionIndex = 0;
-    userAnswers = [];
-    document.getElementById("quiz-result").classList.add("hidden");
-    document.getElementById("quiz-body").classList.remove("hidden");
-    renderQuestion();
-  });
-}
-
-function renderQuestion() {
-  const quizBody = document.getElementById("quiz-body");
-  const progressFill = document.getElementById("quiz-progress-fill");
-
-  if (!quizBody) return;
-
-  const currentQ = QUIZ_QUESTIONS[currentQuestionIndex];
-  const progressPct = ((currentQuestionIndex + 1) / QUIZ_QUESTIONS.length) * 100;
-  if (progressFill) progressFill.style.width = `${progressPct}%`;
-
-  quizBody.innerHTML = `
-    <div class="quiz-q-num">Question ${currentQuestionIndex + 1} of ${QUIZ_QUESTIONS.length}</div>
-    <h3 class="quiz-question-title">${currentQ.question}</h3>
-    <div class="quiz-options-grid">
-      ${currentQ.options.map((opt, i) => `
-        <button class="quiz-option-btn" data-persona="${opt.persona}">
-          <div class="opt-head">
-            <i class="fa-solid ${opt.icon} accent-text"></i>
-            <span>Option ${String.fromCharCode(65 + i)}</span>
-          </div>
-          <div class="opt-desc">${opt.text}</div>
-        </button>
-      `).join("")}
-    </div>
-  `;
-
-  // Attach option click listeners
-  quizBody.querySelectorAll(".quiz-option-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const persona = btn.getAttribute("data-persona");
-      userAnswers.push(persona);
-
-      if (currentQuestionIndex < QUIZ_QUESTIONS.length - 1) {
-        currentQuestionIndex++;
-        renderQuestion();
-      } else {
-        showQuizResult();
-      }
+// --- Accordions for Phase 2 ---
+function initAccordions() {
+  const accHeaders = document.querySelectorAll('.accordion-header');
+  accHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.parentElement;
+      item.classList.toggle('active');
     });
   });
+  // Expand first accordion by default
+  const firstAcc = document.querySelector('.accordion-item');
+  if (firstAcc) firstAcc.classList.add('active');
 }
 
-function showQuizResult() {
-  // Calculate persona frequency
-  const counts = { wizard: 0, pioneer: 0, creative: 0, skeptic: 0 };
-  userAnswers.forEach((p) => {
-    if (counts[p] !== undefined) counts[p]++;
-  });
-
-  let winner = "wizard";
-  let maxCount = -1;
-  Object.keys(counts).forEach((p) => {
-    if (counts[p] > maxCount) {
-      maxCount = counts[p];
-      winner = p;
+// --- Text-To-Speech (Native Audio Pronunciation) ---
+function initTTS() {
+  document.addEventListener('click', (e) => {
+    const ttsBtn = e.target.closest('.btn-tts, .btn-tts-mini');
+    if (ttsBtn) {
+      const textToSpeak = ttsBtn.getAttribute('data-text');
+      speakText(textToSpeak);
     }
   });
-
-  const personaObj = PERSONAS[winner];
-
-  document.getElementById("quiz-body").classList.add("hidden");
-  const resultBox = document.getElementById("quiz-result");
-  resultBox.classList.remove("hidden");
-
-  document.getElementById("result-icon").className = `fa-solid ${personaObj.icon}`;
-  document.getElementById("result-title").textContent = personaObj.title;
-  document.getElementById("result-desc").textContent = personaObj.desc;
-
-  // Trigger celebration confetti
-  if (window.confetti) {
-    window.confetti({
-      particleCount: 80,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-  }
 }
 
-/* ==========================================================================
-   STAR RATING COMPONENT
-   ========================================================================== */
-function initStarRating() {
-  const stars = document.querySelectorAll("#star-rating-box .star");
-  const ratingInput = document.getElementById("rating-input");
-  const scoreText = document.getElementById("star-score-text");
-
-  stars.forEach((star) => {
-    star.addEventListener("click", () => {
-      const val = parseInt(star.getAttribute("data-val"));
-      ratingInput.value = val;
-      scoreText.textContent = `${val} / 5`;
-
-      stars.forEach((s) => {
-        const sVal = parseInt(s.getAttribute("data-val"));
-        if (sVal <= val) {
-          s.classList.add("active");
-        } else {
-          s.classList.remove("active");
-        }
-      });
-    });
-  });
+function speakText(text) {
+  if (!('speechSynthesis' in window)) {
+    alert("Text-to-speech is not supported in your browser.");
+    return;
+  }
+  window.speechSynthesis.cancel(); // Stop current speech
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.rate = 0.9; // Slightly clear & natural pace
+  utterance.lang = 'en-US';
+  window.speechSynthesis.speak(utterance);
 }
 
-/* ==========================================================================
-   SURVEY FORM SUBMISSION ENGINE
-   ========================================================================== */
-function initSurveyForm() {
-  const form = document.getElementById("ai-survey-form");
-  const submitBtn = document.getElementById("submit-survey-btn");
-  const successBox = document.getElementById("survey-success");
-  const anotherBtn = document.getElementById("another-response-btn");
-
-  if (!form) return;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    // Disable button state
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving to Database...`;
-
-    // Gather Form Data
-    const formData = new FormData(form);
-    const email = formData.get("email");
-    const gradeLevel = formData.get("gradeLevel");
-    const frequency = formData.get("frequency");
-    const examPolicy = formData.get("examPolicy");
-    const rating = parseInt(formData.get("rating") || 4);
-    const thought = formData.get("thought");
-    const publicVibe = form.querySelector("#public-vibe-check").checked;
-
-    // Multi-selected checkboxes
-    const tools = [];
-    form.querySelectorAll("input[name='tools']:checked").forEach((cb) => {
-      tools.push(cb.value);
-    });
-
-    const payload = {
-      email,
-      gradeLevel,
-      frequency,
-      tools,
-      examPolicy,
-      rating,
-      thought,
-      publicVibe
-    };
-
-    // Save to Firebase / Local Storage
-    const result = await saveSurveySubmission(payload);
-
-    submitBtn.disabled = false;
-    submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Submit & Save to Database`;
-
-    if (result.success) {
-      form.classList.add("hidden");
-      successBox.classList.remove("hidden");
-      document.getElementById("submitted-email-text").textContent = email;
-      document.getElementById("registered-id").textContent = Math.floor(1000 + Math.random() * 9000);
-
-      // Celebrate
-      if (window.confetti) {
-        window.confetti({
-          particleCount: 120,
-          spread: 90,
-          origin: { y: 0.5 }
-        });
-      }
-    }
-  });
-
-  anotherBtn?.addEventListener("click", () => {
-    form.reset();
-    form.classList.remove("hidden");
-    successBox.classList.add("hidden");
-  });
-}
-
-/* ==========================================================================
-   LIVE PULSE ANALYTICS DASHBOARD
-   ========================================================================== */
-function updateHeroCount(total) {
-  const countEl = document.getElementById("hero-count-num");
-  if (countEl) {
-    countEl.textContent = `${(total + 1200).toLocaleString()}+`;
-  }
-}
-
-function updateDashboardUI(surveys) {
-  if (!surveys || surveys.length === 0) return;
-
-  const total = surveys.length;
-
-  // 1. AI Frequency Breakdown
-  const freqCounts = {};
-  surveys.forEach((s) => {
-    freqCounts[s.frequency] = (freqCounts[s.frequency] || 0) + 1;
-  });
-
-  const freqList = document.getElementById("freq-chart-list");
-  if (freqList) {
-    const categories = ["Every Day", "3-4 Times a Week", "Rarely / Only for Big Projects", "Never"];
-    freqList.innerHTML = categories.map((cat) => {
-      const count = freqCounts[cat] || 0;
-      const pct = Math.round((count / total) * 100) || 0;
-      return `
-        <div class="chart-item">
-          <div class="chart-label-row">
-            <span>${cat}</span>
-            <span class="val">${pct}% (${count})</span>
-          </div>
-          <div class="chart-track">
-            <div class="chart-bar" style="width: ${pct}%;"></div>
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-
-  // 2. Top AI Tools Ranking
-  const toolCounts = {};
-  surveys.forEach((s) => {
-    if (Array.isArray(s.tools)) {
-      s.tools.forEach((t) => {
-        toolCounts[t] = (toolCounts[t] || 0) + 1;
-      });
-    }
-  });
-
-  const sortedTools = Object.entries(toolCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-  const toolRankList = document.getElementById("tool-rank-list");
-  if (toolRankList) {
-    toolRankList.innerHTML = sortedTools.map(([tool, count], idx) => `
-      <div class="tool-rank-item">
-        <div class="tool-info">
-          <div class="tool-badge ${idx === 0 ? 'gold' : ''}">#${idx + 1}</div>
-          <span class="tool-name">${tool}</span>
-        </div>
-        <span class="tool-count">${count} votes</span>
-      </div>
-    `).join("");
-  }
-
-  // 3. Exam Policy Votes
-  const stanceCounts = {};
-  surveys.forEach((s) => {
-    stanceCounts[s.examPolicy] = (stanceCounts[s.examPolicy] || 0) + 1;
-  });
-
-  const stanceContainer = document.getElementById("stance-container");
-  if (stanceContainer) {
-    const policies = Object.keys(stanceCounts);
-    stanceContainer.innerHTML = policies.map((pol) => {
-      const count = stanceCounts[pol];
-      const pct = Math.round((count / total) * 100) || 0;
-      return `
-        <div class="stance-pill">
-          <div class="stance-head">
-            <span>${pol}</span>
-            <strong>${pct}%</strong>
-          </div>
-          <div class="chart-track">
-            <div class="chart-bar" style="width: ${pct}%; background: linear-gradient(90deg, var(--primary-violet), var(--primary-pink));"></div>
-          </div>
-        </div>
-      `;
-    }).join("");
-  }
-}
-
-/* ==========================================================================
-   STUDENT VIBE WALL FEED
-   ========================================================================== */
-function updateVibeWallUI(surveys) {
-  const grid = document.getElementById("vibe-cards-grid");
+// --- Render Upgrade Vault Grid ---
+function initVaultGrid() {
+  const grid = document.getElementById('vaultGrid');
   if (!grid) return;
 
-  const vibes = surveys.filter((s) => s.publicVibe && s.thought && s.thought.trim().length > 0);
+  renderVaultCards(UPGRADE_VAULT_DATA);
 
-  grid.innerHTML = vibes.map((v) => {
-    // Mask email for privacy (e.g. alex.m***)
-    const emailParts = (v.email || "student@school.edu").split("@");
-    const namePart = emailParts[0];
-    const maskedName = namePart.length > 3 ? namePart.substring(0, 3) + "***" : namePart + "***";
-    const domain = emailParts[1] || "school.edu";
+  // Filter listener
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
 
-    return `
-      <div class="vibe-card glass-card">
-        <div class="vibe-card-quote">${escapeHtml(v.thought)}</div>
-        <div class="vibe-author-meta">
-          <div class="vibe-user-info">
-            <div class="vibe-avatar">${maskedName.substring(0, 1).toUpperCase()}</div>
-            <div>
-              <div class="vibe-user-name">${maskedName}@${domain}</div>
-              <div class="vibe-grade-badge">${v.gradeLevel}</div>
-            </div>
-          </div>
-          <span class="star-rating" style="font-size: 0.8rem;">
-            ${'<i class="fa-solid fa-star active"></i>'.repeat(v.rating || 4)}
-          </span>
-        </div>
+      const filter = btn.getAttribute('data-filter');
+      if (filter === 'all') {
+        renderVaultCards(UPGRADE_VAULT_DATA);
+      } else {
+        const filtered = UPGRADE_VAULT_DATA.filter(item => item.category === filter);
+        renderVaultCards(filtered);
+      }
+    });
+  });
+}
+
+function renderVaultCards(data) {
+  const grid = document.getElementById('vaultGrid');
+  grid.innerHTML = data.map(item => `
+    <div class="vault-card" data-category="${item.category}">
+      <div class="vcard-head">
+        <span class="vcard-tag">${item.topic}</span>
+        <span class="chip chip-purple">${item.band}</span>
       </div>
-    `;
-  }).join("");
+      <div class="vcard-body">
+        <h4 class="vcard-upgrade">"${item.upgrade}"</h4>
+        <div class="vcard-basic"><i class="fa-solid fa-arrow-right-from-bracket"></i> Instead of: "${item.basic}"</div>
+        <p class="vcard-def">${item.definition}</p>
+      </div>
+      <div class="vcard-foot">
+        <button class="btn-tts-mini" data-text="${item.upgrade.replace(/"/g, '&quot;')}">
+          <i class="fa-solid fa-volume-high"></i> Pronounce
+        </button>
+        <span style="font-size: 0.72rem; color: var(--text-muted);">Card #${item.id}</span>
+      </div>
+    </div>
+  `).join('');
 }
 
-function escapeHtml(str) {
-  return (str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
+// --- Part 2 Cue Card Timer System ---
+function initTimer() {
+  const startPrepBtn = document.getElementById('startPrepBtn');
+  const startSpeakBtn = document.getElementById('startSpeakBtn');
+  const resetTimerBtn = document.getElementById('resetTimerBtn');
 
-/* ==========================================================================
-   FIREBASE CONFIGURATION MODAL HANDLER
-   ========================================================================== */
-function updateFirebaseStatusUI(isOnline) {
-  const dot = document.getElementById("fb-status-dot");
-  const text = document.getElementById("fb-status-text");
-
-  if (isOnline) {
-    dot.className = "status-dot online";
-    text.textContent = "Firebase Live DB";
-  } else {
-    dot.className = "status-dot offline";
-    text.textContent = "Local Storage (Demo)";
+  if (startPrepBtn) {
+    startPrepBtn.addEventListener('click', () => startTimer(60, 'Prep Time (1 Min)'));
+  }
+  if (startSpeakBtn) {
+    startSpeakBtn.addEventListener('click', () => startTimer(120, 'Speaking Time (2 Mins)'));
+  }
+  if (resetTimerBtn) {
+    resetTimerBtn.addEventListener('click', resetTimer);
   }
 }
 
-function initFirebaseModal() {
-  const modal = document.getElementById("firebase-modal");
-  const statusBtn = document.getElementById("firebase-status-btn");
-  const closeBtn = document.getElementById("close-modal-btn");
-  const form = document.getElementById("firebase-config-form");
-  const demoBtn = document.getElementById("use-demo-db-btn");
+function startTimer(seconds, modeLabel) {
+  clearInterval(timerInterval);
+  isTimerRunning = true;
+  initialTimerSeconds = seconds;
+  currentTimerSeconds = seconds;
 
-  if (!modal) return;
+  const modeLabelEl = document.getElementById('timerModeLabel');
+  if (modeLabelEl) modeLabelEl.textContent = modeLabel;
 
-  statusBtn?.addEventListener("click", () => {
-    // Populate form with existing config if present
-    const cfg = getSavedFirebaseConfig() || {};
-    document.getElementById("fb-apiKey").value = cfg.apiKey || "";
-    document.getElementById("fb-authDomain").value = cfg.authDomain || "";
-    document.getElementById("fb-projectId").value = cfg.projectId || "";
-    document.getElementById("fb-storageBucket").value = cfg.storageBucket || "";
-    document.getElementById("fb-appId").value = cfg.appId || "";
+  updateTimerDisplay();
 
-    modal.classList.remove("hidden");
+  timerInterval = setInterval(() => {
+    currentTimerSeconds--;
+    updateTimerDisplay();
+
+    if (currentTimerSeconds <= 0) {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      speakText("Time is up!");
+      alert(`⏰ ${modeLabel} is finished! Great job!`);
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timerInterval);
+  isTimerRunning = false;
+  currentTimerSeconds = 60;
+  initialTimerSeconds = 60;
+  const modeLabelEl = document.getElementById('timerModeLabel');
+  if (modeLabelEl) modeLabelEl.textContent = 'Prep Time (1 Min)';
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const clock = document.getElementById('timerClock');
+  const fill = document.getElementById('timerFill');
+  if (!clock || !fill) return;
+
+  const mins = Math.floor(currentTimerSeconds / 60);
+  const secs = currentTimerSeconds % 60;
+  clock.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+  const pct = (currentTimerSeconds / initialTimerSeconds) * 100;
+  fill.style.width = `${pct}%`;
+}
+
+// --- Sentence Upgrade Generator ---
+function initGenerator() {
+  const selector = document.getElementById('sentenceSelector');
+  if (!selector) return;
+
+  selector.addEventListener('change', () => {
+    updateGeneratorOutput(selector.value);
   });
 
-  closeBtn?.addEventListener("click", () => {
-    modal.classList.add("hidden");
+  // Initial render
+  updateGeneratorOutput("1");
+}
+
+function updateGeneratorOutput(val) {
+  const outputBox = document.getElementById('upgradeOutputBox');
+  const data = GENERATOR_MAPPINGS[val];
+  if (!data || !outputBox) return;
+
+  outputBox.innerHTML = `
+    <div style="margin-bottom: 12px;">
+      <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-rose-light); text-transform: uppercase;">Basic Input:</span>
+      <div style="font-size: 1rem; color: #f87171; font-weight: 600;">"${data.basic}"</div>
+    </div>
+
+    <div style="margin-bottom: 16px;">
+      <span style="font-size: 0.78rem; font-weight: 700; color: var(--accent-emerald-light); text-transform: uppercase;">Band 7.5+ Upgraded Expression:</span>
+      <div style="font-size: 1.15rem; color: #4ade80; font-weight: 700; font-family: var(--font-heading);">
+        "${data.upgrade}"
+      </div>
+      <button class="btn-tts-mini mt-2" data-text="${data.upgrade.replace(/"/g, '&quot;')}">
+        <i class="fa-solid fa-volume-high"></i> Listen to Native Delivery
+      </button>
+    </div>
+
+    <div style="background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
+      <strong style="font-size: 0.85rem; color: var(--accent-indigo-light);">Key Upgrades & Vocabulary Breakdown:</strong>
+      <ul style="margin-top: 6px; padding-left: 20px; font-size: 0.85rem;">
+        ${data.breakdown.map(b => `
+          <li><span style="color: #f87171;">${b.token}</span> ➔ <strong style="color: #34d399;">${b.replacement}</strong> (${b.note})</li>
+        `).join('')}
+      </ul>
+    </div>
+
+    <div style="font-size: 0.88rem; font-style: italic; color: var(--text-muted);">
+      <strong>Full Context Example:</strong> "${data.example}"
+    </div>
+  `;
+}
+
+// --- Theme Switcher ---
+function initTheme() {
+  const toggleBtn = document.getElementById('themeToggle');
+  if (!toggleBtn) return;
+
+  const savedTheme = localStorage.getItem('ielts_theme') || 'dark';
+  if (savedTheme === 'light') {
+    document.body.classList.add('light-theme');
+    toggleBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+  }
+
+  toggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('light-theme');
+    const isLight = document.body.classList.contains('light-theme');
+    localStorage.setItem('ielts_theme', isLight ? 'light' : 'dark');
+    toggleBtn.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+  });
+}
+
+// --- Homework Local Storage ---
+function initHomeworkStorage() {
+  const saveBtn = document.getElementById('saveHwBtn');
+  const inputs = document.querySelectorAll('.hw-input');
+
+  // Load saved homework
+  inputs.forEach((input, index) => {
+    const saved = localStorage.getItem(`hw_resp_${index}`);
+    if (saved) input.value = saved;
   });
 
-  demoBtn?.addEventListener("click", () => {
-    clearFirebaseConfig();
-  });
+  if (saveBtn) {
+    saveBtn.addEventListener('click', () => {
+      inputs.forEach((input, index) => {
+        localStorage.setItem(`hw_resp_${index}`, input.value);
+      });
+      alert("✅ Your homework responses have been saved locally!");
+    });
+  }
+}
 
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const config = {
-      apiKey: document.getElementById("fb-apiKey").value.trim(),
-      authDomain: document.getElementById("fb-authDomain").value.trim(),
-      projectId: document.getElementById("fb-projectId").value.trim(),
-      storageBucket: document.getElementById("fb-storageBucket").value.trim(),
-      appId: document.getElementById("fb-appId").value.trim()
-    };
-
-    saveFirebaseConfig(config);
-  });
+// --- Print / Export Notes ---
+function initPrint() {
+  const printBtn = document.getElementById('printNotesBtn');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      window.print();
+    });
+  }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "ai-at-school-survey",
+  "name": "ielts-speaking-vocabulary-upgrade",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -7,9 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview"
-  },
-  "dependencies": {
-    "firebase": "^10.12.0"
   },
   "devDependencies": {
     "vite": "^5.2.0"

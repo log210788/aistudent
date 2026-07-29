@@ -1,466 +1,688 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FutureMind AI @ School — Student Voice & Survey Portal</title>
-  <meta name="description" content="Discover how students use AI in school, find your AI Student Persona, voice your opinions, and join the nationwide student survey powered by Firebase." />
-  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IELTS Speaking Hub | Upgrading Vocabulary for Band 7.5+</title>
+  <meta name="description" content="Interactive IELTS Speaking Lesson Plan, Vocabulary Upgrade Vault, and Live Class Notes for Intermediate and Upper-Intermediate students.">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- FontAwesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
-  <!-- Canvas Confetti -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-
-  <link rel="stylesheet" href="./style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-  <!-- Ambient Background Orbs -->
-  <div class="ambient-bg">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="grid-overlay"></div>
-  </div>
-
-  <!-- Top Navigation -->
-  <header class="navbar-header">
-    <div class="nav-container">
-      <a href="#" class="brand-logo">
-        <div class="logo-icon"><i class="fa-solid fa-brain-circuit"></i></div>
-        <span class="logo-text">FutureMind <span class="accent-text">AI@School</span></span>
-      </a>
-
-      <nav class="nav-menu">
-        <a href="#hero" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="#quiz-section" class="nav-link"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Quiz</a>
-        <a href="#survey-section" class="nav-link"><i class="fa-solid fa-clipboard-question"></i> Survey</a>
-        <a href="#dashboard-section" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Live Pulse</a>
-        <a href="#vibes-section" class="nav-link"><i class="fa-solid fa-comments"></i> Vibe Wall</a>
-      </nav>
-
-      <div class="nav-actions">
-        <button id="firebase-status-btn" class="firebase-badge-btn" title="Click to view/configure Firebase settings">
-          <span class="status-dot offline" id="fb-status-dot"></span>
-          <span id="fb-status-text">Local Storage</span>
-          <i class="fa-solid fa-gear"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section">
-      <div class="section-container hero-grid">
-        <div class="hero-content">
-          <div class="hero-tag">
-            <span class="sparkle"><i class="fa-solid fa-bolt"></i></span>
-            <span>2026 Student AI Voice Initiative</span>
+<body class="dark-theme">
+  <!-- Background Glow & Particle Overlay -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  
+  <div id="app">
+    <!-- Header Banner -->
+    <header class="app-header">
+      <div class="header-container">
+        <div class="brand-group">
+          <div class="brand-badge">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span>IELTS MASTERCLASS</span>
           </div>
-          <h1 class="hero-title">
-            How is <span class="gradient-text">AI Changing</span> Your School Life?
-          </h1>
-          <p class="hero-description">
-            From writing essays and solving math problems to ethics and cheating debates—tell us your real story. Take our quick interactive quiz, submit your survey, and save your spot in the future student registry!
-          </p>
+          <h1 class="main-title">IELTS Speaking <span class="gradient-text">Vocabulary Upgrade</span></h1>
+          <p class="subtitle">Personalized Learning Hub & Live Class Notes for New Student</p>
+        </div>
 
-          <div class="hero-cta-group">
-            <a href="#quiz-section" class="btn btn-primary btn-glow">
-              <i class="fa-solid fa-gamepad"></i> Find Your AI Vibe
-            </a>
-            <a href="#survey-section" class="btn btn-secondary">
-              <i class="fa-solid fa-paper-plane"></i> Take 1-Min Survey
-            </a>
-          </div>
-
-          <div class="hero-stats-banner">
-            <div class="stat-pill">
-              <span class="stat-num" id="hero-count-num">1,240+</span>
-              <span class="stat-lbl">Student Opinions Collected</span>
+        <div class="header-actions">
+          <div class="student-pill">
+            <div class="avatar"><i class="fa-solid fa-user-graduate"></i></div>
+            <div class="pill-info">
+              <span class="pill-label">Target Band</span>
+              <span class="pill-val">7.5+ Lexical Resource</span>
             </div>
-            <div class="stat-pill">
-              <span class="stat-num">88%</span>
-              <span class="stat-lbl">Use AI Weekly</span>
+          </div>
+          <button id="themeToggle" class="icon-btn" title="Toggle Light/Dark Theme">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Bar -->
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <i class="fa-solid fa-layer-group metric-icon icon-indigo"></i>
+          <div>
+            <span class="metric-value">5 Phases</span>
+            <span class="metric-label">Structured Lesson Plan</span>
+          </div>
+        </div>
+        <div class="metric-item">
+          <i class="fa-solid fa-bolt metric-icon icon-emerald"></i>
+          <div>
+            <span class="metric-value">15+ Upgrades</span>
+            <span class="metric-label">High-Scoring Collocations</span>
+          </div>
+        </div>
+        <div class="metric-item">
+          <i class="fa-solid fa-note-sticky metric-icon icon-amber"></i>
+          <div>
+            <span class="metric-value">Today's Class</span>
+            <span class="metric-label">Tidied Live Notes</span>
+          </div>
+        </div>
+        <div class="metric-item">
+          <i class="fa-solid fa-stopwatch metric-icon icon-rose"></i>
+          <div>
+            <span class="metric-value">Part 2 Drill</span>
+            <span class="metric-label">Cue Card Timer</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="lesson-plan">
+        <i class="fa-solid fa-list-check"></i> Lesson Plan Roadmap
+      </button>
+      <button class="tab-btn" data-tab="today-notes">
+        <i class="fa-solid fa-pen-to-square"></i> Today's Live Notes <span class="badge-new">NEW</span>
+      </button>
+      <button class="tab-btn" data-tab="upgrade-vault">
+        <i class="fa-solid fa-book-bookmark"></i> The Upgrade Vault
+      </button>
+      <button class="tab-btn" data-tab="part2-drill">
+        <i class="fa-solid fa-microphone"></i> Part 2 Mock Drill
+      </button>
+      <button class="tab-btn" data-tab="practice-homework">
+        <i class="fa-solid fa-dumbbell"></i> Practice & Homework
+      </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="content-container">
+
+      <!-- TAB 1: LESSON PLAN ROADMAP -->
+      <section id="lesson-plan" class="tab-content active">
+        <div class="section-header">
+          <div>
+            <span class="chip chip-purple">Official Curriculum</span>
+            <h2>Lesson Plan: Upgrading Vocabulary for IELTS Speaking</h2>
+            <p class="section-desc">Level: <strong>Intermediate / Upper-Intermediate</strong> | Focus: <strong>IELTS Speaking Part 1 & Part 2</strong></p>
+          </div>
+          <div class="goal-box">
+            <i class="fa-solid fa-bullseye goal-icon"></i>
+            <div>
+              <strong>Primary Goal:</strong> Replace simple words and Thai-transcription habits with precise collocations, idiomatic phrases, and descriptive adjectives.
             </div>
           </div>
         </div>
 
-        <div class="hero-media">
-          <div class="hero-frame">
-            <img src="./hero-ai.jpg" alt="Students using AI at school" class="hero-img" />
-            <div class="glass-floating-card card-top-right">
-              <div class="card-icon"><i class="fa-solid fa-fire"></i></div>
+        <div class="phases-timeline">
+          <!-- Phase 1 -->
+          <div class="phase-card">
+            <div class="phase-badge phase-1">Phase 1</div>
+            <div class="phase-time"><i class="fa-regular fa-clock"></i> 10 Minutes</div>
+            <h3>Warm-up & Diagnostic</h3>
+            <p class="phase-intro">Light conversation to assess natural vocabulary range before introducing new material. <em>Do not correct immediately—jot down overused basic words.</em></p>
+
+            <div class="questions-grid">
+              <div class="q-card">
+                <span class="q-num">Q1</span>
+                <p>"Tell me about your hometown or where you live now."</p>
+                <button class="btn-tts" data-text="Tell me about your hometown or where you live now."><i class="fa-solid fa-volume-high"></i> Listen</button>
+              </div>
+              <div class="q-card">
+                <span class="q-num">Q2</span>
+                <p>"What do you like to do in your free time?"</p>
+                <button class="btn-tts" data-text="What do you like to do in your free time?"><i class="fa-solid fa-volume-high"></i> Listen</button>
+              </div>
+              <div class="q-card">
+                <span class="q-num">Q3</span>
+                <p>"How do you usually like to relax after a busy day?"</p>
+                <button class="btn-tts" data-text="How do you usually like to relax after a busy day?"><i class="fa-solid fa-volume-high"></i> Listen</button>
+              </div>
+            </div>
+
+            <div class="teacher-note-box">
+              <i class="fa-solid fa-eye note-icon"></i>
               <div>
-                <h4>Top Tool at School</h4>
-                <p>ChatGPT & Gemini (74%)</p>
-              </div>
-            </div>
-            <div class="glass-floating-card card-bottom-left">
-              <div class="card-icon cyan"><i class="fa-solid fa-shield-halved"></i></div>
-              <div>
-                <h4>Firebase Secured</h4>
-                <p>Emails stored in Cloud DB</p>
+                <strong>Diagnostic Target:</strong> Watch for repetitive basic words: <em>nice, fun, relaxed, busy, good food</em>. Note them down in the scratchpad below.
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Quiz Section -->
-    <section id="quiz-section" class="quiz-section">
-      <div class="section-container">
-        <div class="section-header text-center">
-          <span class="badge-sub">Interactive Game</span>
-          <h2>What Type of <span class="gradient-text">AI Student</span> Are You?</h2>
-          <p>Answer 4 quick scenarios to unlock your official AI persona badge!</p>
-        </div>
+          <!-- Phase 2 -->
+          <div class="phase-card">
+            <div class="phase-badge phase-2">Phase 2</div>
+            <div class="phase-time"><i class="fa-regular fa-clock"></i> 15 Minutes</div>
+            <h3>The "Upgrade" Strategy</h3>
+            <p class="phase-intro">Replace general words or literal Thai-to-English translations with Band 7.5+ native collocations across 3 core topics.</p>
 
-        <div class="quiz-card glass-card">
-          <div id="quiz-progress-bar" class="quiz-progress">
-            <div class="progress-fill" id="quiz-progress-fill" style="width: 25%;"></div>
-          </div>
+            <div class="topics-accordion">
+              <!-- Topic 1 -->
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <span class="topic-tag"><i class="fa-solid fa-city"></i> Topic 1</span>
+                  <h4>Talking About Places & Food</h4>
+                  <i class="fa-solid fa-chevron-down acc-icon"></i>
+                </div>
+                <div class="accordion-body">
+                  <div class="upgrade-table">
+                    <div class="upgrade-row header-row">
+                      <span>Basic / Overused Phrase</span>
+                      <span></span>
+                      <span>Band 7.5+ Upgrade</span>
+                    </div>
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "The city is very crowded and busy."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "It's a <strong>bustling metropolis</strong> with a <strong>vibrant nightlife</strong>."</div>
+                    </div>
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "The food is very delicious."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "It's <strong>mouth-watering</strong> / <strong>full of flavor</strong>."</div>
+                    </div>
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "It's quiet and peaceful."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "It's a <strong>serene place</strong>, perfect to <strong>escape the hustle and bustle</strong>."</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          <!-- Quiz Container -->
-          <div id="quiz-body">
-            <!-- Questions rendered via JS -->
-          </div>
+              <!-- Topic 2 -->
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <span class="topic-tag"><i class="fa-solid fa-headphones"></i> Topic 2</span>
+                  <h4>Talking About Free Time & Hobbies</h4>
+                  <i class="fa-solid fa-chevron-down acc-icon"></i>
+                </div>
+                <div class="accordion-body">
+                  <div class="upgrade-table">
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "I really like listening to music."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "I'm a <strong>big fan of</strong> listening to music; it helps me <strong>unwind</strong>."</div>
+                    </div>
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "It makes me feel happy/relaxed."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "It's a great way to <strong>recharge my batteries</strong> or <strong>decompress</strong>."</div>
+                    </div>
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "I do it when I have time."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "I try to fit it in <strong>once in a blue moon</strong> / whenever I have a <strong>spare moment</strong>."</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          <!-- Quiz Result Card (Hidden by default) -->
-          <div id="quiz-result" class="quiz-result-box hidden">
-            <div class="result-badge-anim">
-              <i id="result-icon" class="fa-solid fa-crown"></i>
+              <!-- Topic 3 -->
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <span class="topic-tag"><i class="fa-solid fa-briefcase"></i> Topic 3</span>
+                  <h4>Talking About Work, Study, or Life</h4>
+                  <i class="fa-solid fa-chevron-down acc-icon"></i>
+                </div>
+                <div class="accordion-body">
+                  <div class="upgrade-table">
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "I have a lot of work / hard work."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "I have a <strong>heavy workload</strong> / it's quite <strong>demanding</strong>."</div>
+                    </div>
+                    <div class="upgrade-row">
+                      <div class="basic-cell"><i class="fa-solid fa-xmark color-red"></i> "It's very difficult."</div>
+                      <div class="arrow-cell"><i class="fa-solid fa-arrow-right"></i></div>
+                      <div class="upgrade-cell"><i class="fa-solid fa-check color-green"></i> "It can be quite <strong>challenging</strong> / a <strong>steep learning curve</strong>."</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <span class="result-tag">Your AI Persona</span>
-            <h3 id="result-title" class="result-title-text">The Prompt Wizard</h3>
-            <p id="result-desc" class="result-desc-text">You treat AI like your personal magic wand. Homework gets done in record time!</p>
+          </div>
 
-            <div class="result-actions">
-              <button id="retake-quiz-btn" class="btn btn-outline">
-                <i class="fa-solid fa-rotate-right"></i> Retake Quiz
-              </button>
-              <a href="#survey-section" class="btn btn-primary">
-                <i class="fa-solid fa-arrow-down"></i> Next: Fill Out Survey
-              </a>
+          <!-- Phase 3 -->
+          <div class="phase-card">
+            <div class="phase-badge phase-3">Phase 3</div>
+            <div class="phase-time"><i class="fa-regular fa-clock"></i> 15 Minutes</div>
+            <h3>Controlled Practice & Substitution</h3>
+            <p class="phase-intro">Re-speak and re-write basic sentences using target vocabulary. Immediate positive reinforcement & prompt hints.</p>
+
+            <div class="practice-cards-list">
+              <div class="practice-item">
+                <div class="practice-original">"My hometown is famous for good food and quiet parks."</div>
+                <div class="target-chips">
+                  <span>Target: mouth-watering</span>
+                  <span>serene</span>
+                  <span>escape the hustle and bustle</span>
+                </div>
+                <div class="upgraded-solution">
+                  <strong>Upgraded Response:</strong> "My hometown is renowned for its <em>mouth-watering</em> cuisine and <em>serene</em> parks, providing the perfect spot to <em>escape the hustle and bustle</em>."
+                </div>
+              </div>
+
+              <div class="practice-item">
+                <div class="practice-original">"I go shopping when I am free because it makes me happy."</div>
+                <div class="target-chips">
+                  <span>Target: spare moment</span>
+                  <span>unwind</span>
+                  <span>recharge my batteries</span>
+                </div>
+                <div class="upgraded-solution">
+                  <strong>Upgraded Response:</strong> "Whenever I have a <em>spare moment</em>, I love going shopping to <em>unwind</em> and <em>recharge my batteries</em>."
+                </div>
+              </div>
+
+              <div class="practice-item">
+                <div class="practice-original">"Studying English is hard, but I try every day."</div>
+                <div class="target-chips">
+                  <span>Target: challenging</span>
+                  <span>demanding</span>
+                  <span>steep learning curve</span>
+                </div>
+                <div class="upgraded-solution">
+                  <strong>Upgraded Response:</strong> "Studying English can be quite <em>demanding</em> with a <em>steep learning curve</em>, but I remain dedicated every single day."
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 4 -->
+          <div class="phase-card">
+            <div class="phase-badge phase-4">Phase 4</div>
+            <div class="phase-time"><i class="fa-regular fa-clock"></i> 15 Minutes</div>
+            <h3>Mock IELTS Part 2 Challenge</h3>
+            <p class="phase-intro">Cue Card Challenge: Deliver a 1-to-2 minute speech using at least 3 new phrases from today's lesson.</p>
+            <div class="card-preview">
+              <h4>Task Card: Describe a place you like to visit in your free time</h4>
+              <ul>
+                <li>Where it is</li>
+                <li>How often you go there</li>
+                <li>What you do there</li>
+                <li>And explain why you like visiting this place</li>
+              </ul>
+              <button class="btn-primary start-part2-btn"><i class="fa-solid fa-play"></i> Open Interactive Part 2 Simulator</button>
+            </div>
+          </div>
+
+          <!-- Phase 5 -->
+          <div class="phase-card">
+            <div class="phase-badge phase-5">Phase 5</div>
+            <div class="phase-time"><i class="fa-regular fa-clock"></i> 5 Minutes</div>
+            <h3>Feedback & Wrap-up</h3>
+            <div class="wrapup-grid">
+              <div class="wrapup-col">
+                <h4><i class="fa-solid fa-thumbs-up color-green"></i> Praise & Highlight</h4>
+                <p>Highlight exact high-level phrases used accurately during Part 2 presentation.</p>
+              </div>
+              <div class="wrapup-col">
+                <h4><i class="fa-solid fa-wrench color-amber"></i> Refine Errors</h4>
+                <p>Gently correct pronunciation (e.g. <em>unwind</em> pronounced with long 'i' like <em>mind</em>) and prepositions.</p>
+              </div>
+              <div class="wrapup-col">
+                <h4><i class="fa-solid fa-house-laptop color-indigo"></i> Take-Home Task</h4>
+                <p>Pick 5 new phrases and write full Part 1 answers before next session.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Survey & Email Collection Section -->
-    <section id="survey-section" class="survey-section">
-      <div class="section-container">
-        <div class="survey-wrapper grid-2-col">
+      <!-- TAB 2: TODAY'S LIVE NOTES -->
+      <section id="today-notes" class="tab-content">
+        <div class="section-header">
+          <div>
+            <span class="chip chip-amber"><i class="fa-solid fa-pen"></i> Class Output</span>
+            <h2>Today's Lesson Notes (Tidied & Structured)</h2>
+            <p class="section-desc">Key takeaways, vocabulary expansions, grammar clarifications, and pronunciation notes from today's session.</p>
+          </div>
+          <button class="btn-secondary" id="printNotesBtn"><i class="fa-solid fa-print"></i> Export Notes</button>
+        </div>
 
-          <div class="survey-info">
-            <span class="badge-sub">National Student Survey</span>
-            <h2>Make Your Voice Heard on <span class="gradient-text">AI in Education</span></h2>
-            <p>
-              Should teachers use AI to grade? Should AI be allowed during exams? Is AI making students smarter or lazier?
-            </p>
-            <p>
-              Fill out this official survey. Your email will be logged in our <strong>Firebase Cloud Database</strong> so you get early access to final report infographics & rewards!
-            </p>
+        <div class="notes-grid">
+          <!-- Card 1: Geography & Proximity -->
+          <div class="note-card glass-panel">
+            <div class="note-card-header">
+              <span class="note-tag tag-blue">Grammar & Collocation</span>
+              <h3><i class="fa-solid fa-location-dot"></i> Cuisine & Geography (Proximity)</h3>
+            </div>
+            <div class="note-card-body">
+              <div class="point-box">
+                <span class="point-title">Grammar Correction & Usage:</span>
+                <p class="raw-quote">"The local cuisine comprises a variety of herbs."</p>
+                <div class="explanation-box">
+                  <i class="fa-solid fa-lightbulb"></i>
+                  <div>
+                    <strong>Grammar Key:</strong> <em>Comprise</em> means "to consist of" or "be made up of".
+                    <br>• Active: <em>"The cuisine comprises a variety of herbs."</em> (No "of" needed!)
+                    <br>• Passive: <em>"The cuisine is comprised of a variety of herbs."</em>
+                  </div>
+                </div>
+              </div>
 
-            <div class="info-features">
-              <div class="feature-item">
-                <div class="feature-icon"><i class="fa-solid fa-database"></i></div>
+              <div class="point-box mt-3">
+                <span class="point-title">Bangkok Proximity & Pricing:</span>
+                <ul>
+                  <li><em>"It has a major influence from nearby Bangkok."</em></li>
+                  <li><em>"As my town is in close proximity to Bangkok, it is very pricey."</em></li>
+                </ul>
+              </div>
+
+              <div class="point-box mt-3 bg-subtle">
+                <span class="point-title">Formulating Questions with "Proximity":</span>
+                <p class="example-q">"What's the <strong>proximity</strong> of the cafe to the train station?"</p>
+                <span class="part-of-speech">Noun | /prɒkˈsɪm.ə.ti/ — state of being near in space or time</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: City Descriptors -->
+          <div class="note-card glass-panel">
+            <div class="note-card-header">
+              <span class="note-tag tag-purple">Vocabulary Nuance</span>
+              <h3><i class="fa-solid fa-city"></i> Metropolitan vs. Cosmopolitan</h3>
+            </div>
+            <div class="note-card-body">
+              <p class="intro-note">Understanding city adjectives for high IELTS Lexical Resource scores:</p>
+              
+              <div class="comparison-cards">
+                <div class="comp-box">
+                  <h4>Metropolitan</h4>
+                  <p class="def">Focuses on urban size, infrastructure, and big-city density.</p>
+                  <span class="example-tag">e.g. "a sprawling metropolitan area"</span>
+                </div>
+                <div class="comp-box highlight-box">
+                  <h4>Cosmopolitan</h4>
+                  <p class="def">Focuses on cultural diversity, international flair, and global vibe.</p>
+                  <span class="example-tag">e.g. "Tokyo, Bangkok, London, New York are vibrant cosmopolitan cities."</span>
+                </div>
+              </div>
+
+              <div class="idiom-spotlight mt-3">
+                <i class="fa-solid fa-martini-glass-citrus"></i>
                 <div>
-                  <h4>Firebase Firestore Storage</h4>
-                  <p>All responses and emails are synced live to the database.</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon violet"><i class="fa-solid fa-user-secret"></i></div>
-                <div>
-                  <h4>Privacy Controls</h4>
-                  <p>Optionally display your micro-thoughts on our Student Vibe Wall!</p>
-                </div>
-              </div>
-
-              <div class="feature-item">
-                <div class="feature-icon emerald"><i class="fa-solid fa-trophy"></i></div>
-                <div>
-                  <h4>Unlock Badge</h4>
-                  <p>Earn the AI Pioneer Digital Badge upon completion.</p>
+                  <strong>"Cocktail Cosmopolitan" vs "Cosmopolitan City":</strong>
+                  <p>Don't confuse the famous cocktail with the descriptive adjective for diverse world capitals!</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Form Container -->
-          <div class="survey-form-card glass-card">
-            <form id="ai-survey-form">
-              <div class="form-header">
-                <h3><i class="fa-solid fa-pen-nib"></i> Student Survey Form</h3>
-                <span class="form-step-count">Quick 1-Minute</span>
-              </div>
-
-              <div class="form-group">
-                <label for="student-email">
-                  <i class="fa-solid fa-envelope"></i> Your Email Address <span class="req">*</span>
-                </label>
-                <input 
-                  type="email" 
-                  id="student-email" 
-                  name="email" 
-                  placeholder="alex.student@school.edu" 
-                  required 
-                />
-                <span class="input-hint">We will store this safely in our Firebase database!</span>
-              </div>
-
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="grade-level"><i class="fa-solid fa-graduation-cap"></i> School Level</label>
-                  <select id="grade-level" name="gradeLevel" required>
-                    <option value="High School">High School (Grades 9-12)</option>
-                    <option value="Middle School">Middle School (Grades 6-8)</option>
-                    <option value="College/University">College / University</option>
-                    <option value="Educator/Teacher">Educator / Teacher</option>
-                  </select>
+          <!-- Card 3: Pronunciation & Verb Conjugation -->
+          <div class="note-card glass-panel">
+            <div class="note-card-header">
+              <span class="note-tag tag-rose">Pronunciation & Form</span>
+              <h3><i class="fa-solid fa-spell-check"></i> Verb Focus: Wind & Unwind</h3>
+            </div>
+            <div class="note-card-body">
+              <div class="pronunciation-guide">
+                <div class="phonetic-row">
+                  <span class="v-form">Present Simple:</span>
+                  <span class="v-word">Wind / Unwind</span>
+                  <span class="v-ipa">/waɪnd/ & /ʌnˈwaɪnd/</span>
+                  <button class="btn-tts-mini" data-text="unwind"><i class="fa-solid fa-volume-high"></i></button>
                 </div>
+                <p class="note-sm">⚠️ Rhymes with <strong>mind</strong>, <strong>find</strong>, <strong>kind</strong> (NOT wind/air).</p>
 
-                <div class="form-group">
-                  <label for="ai-frequency"><i class="fa-solid fa-clock"></i> AI Usage Frequency</label>
-                  <select id="ai-frequency" name="frequency" required>
-                    <option value="Every Day">Every Day for Homework & Study</option>
-                    <option value="3-4 Times a Week">3-4 Times a Week</option>
-                    <option value="Rarely / For Big Projects">Rarely / Only for Big Projects</option>
-                    <option value="Never">Never used AI before</option>
-                  </select>
+                <div class="phonetic-row mt-2">
+                  <span class="v-form">Past Simple / Participle:</span>
+                  <span class="v-word">Wound / Unwound</span>
+                  <span class="v-ipa">/waʊnd/ & /ʌnˈwaʊnd/</span>
+                  <button class="btn-tts-mini" data-text="unwound"><i class="fa-solid fa-volume-high"></i></button>
                 </div>
+                <p class="note-sm">⚠️ Rhymes with <strong>round</strong>, <strong>sound</strong>, <strong>found</strong>.</p>
               </div>
 
-              <div class="form-group">
-                <label><i class="fa-solid fa-screwdrivers-all"></i> What AI Tools Do You Use? (Select all that apply)</label>
-                <div class="tools-checkbox-grid">
-                  <label class="checkbox-pill">
-                    <input type="checkbox" name="tools" value="ChatGPT" checked>
-                    <span><i class="fa-solid fa-robot"></i> ChatGPT</span>
-                  </label>
-                  <label class="checkbox-pill">
-                    <input type="checkbox" name="tools" value="Google Gemini" checked>
-                    <span><i class="fa-solid fa-sparkles"></i> Google Gemini</span>
-                  </label>
-                  <label class="checkbox-pill">
-                    <input type="checkbox" name="tools" value="Claude">
-                    <span><i class="fa-solid fa-brain"></i> Claude</span>
-                  </label>
-                  <label class="checkbox-pill">
-                    <input type="checkbox" name="tools" value="Canva / Midjourney AI">
-                    <span><i class="fa-solid fa-image"></i> Midjourney / Canva AI</span>
-                  </label>
-                  <label class="checkbox-pill">
-                    <input type="checkbox" name="tools" value="Photomath / Solvers">
-                    <span><i class="fa-solid fa-calculator"></i> Photomath / Solvers</span>
-                  </label>
-                  <label class="checkbox-pill">
-                    <input type="checkbox" name="tools" value="Notion AI / GitHub Copilot">
-                    <span><i class="fa-solid fa-code"></i> Notion AI / Copilot</span>
-                  </label>
-                </div>
+              <div class="meaning-card mt-3">
+                <strong>Collocation Meaning:</strong> To relax, decrease tension, or recover energy after hard work.
+                <p class="usage-ex">"Listening to classical music helps me unwind after a demanding day."</p>
               </div>
-
-              <div class="form-group">
-                <label for="exam-policy"><i class="fa-solid fa-gavel"></i> Should AI be allowed in exams & tests?</label>
-                <select id="exam-policy" name="examPolicy" required>
-                  <option value="Allowed for research & drafting">Allowed for research & drafting only</option>
-                  <option value="Allowed with open declaration">Fully allowed if declared transparently</option>
-                  <option value="Only math/calculator style AI">Only specific calculator/math AI tools</option>
-                  <option value="Banned completely">Strictly banned in exam halls</option>
-                </select>
-              </div>
-
-              <div class="form-group">
-                <label><i class="fa-solid fa-star"></i> Overall AI Rating in School (1 = Distraction, 5 = Essential Tool)</label>
-                <div class="star-rating" id="star-rating-box">
-                  <i class="fa-solid fa-star star active" data-val="1"></i>
-                  <i class="fa-solid fa-star star active" data-val="2"></i>
-                  <i class="fa-solid fa-star star active" data-val="3"></i>
-                  <i class="fa-solid fa-star star active" data-val="4"></i>
-                  <i class="fa-solid fa-star star" data-val="5"></i>
-                  <span class="rating-value" id="star-score-text">4 / 5</span>
-                </div>
-                <input type="hidden" id="rating-input" name="rating" value="4" />
-              </div>
-
-              <div class="form-group">
-                <label for="student-thought"><i class="fa-solid fa-comment-dots"></i> What's your hottest take or story on AI in school?</label>
-                <textarea 
-                  id="student-thought" 
-                  name="thought" 
-                  rows="3" 
-                  placeholder="e.g. AI helped me understand organic chemistry in 10 minutes when my textbook failed me..." 
-                  required
-                ></textarea>
-              </div>
-
-              <div class="form-group checkbox-row">
-                <label class="toggle-label">
-                  <input type="checkbox" id="public-vibe-check" name="publicVibe" checked />
-                  <span class="toggle-custom"></span>
-                  <span>Share my quote anonymously on the Student Vibe Wall</span>
-                </label>
-              </div>
-
-              <button type="submit" id="submit-survey-btn" class="btn btn-primary btn-block btn-glow">
-                <i class="fa-solid fa-paper-plane"></i> Submit & Save to Database
-              </button>
-            </form>
-
-            <div id="survey-success" class="survey-success-box hidden">
-              <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
-              <h3>Submitted to Database! 🎉</h3>
-              <p>Your email <strong id="submitted-email-text"></strong> and survey responses were successfully saved to our Firebase Cloud Database.</p>
-              <div class="success-badge">
-                <i class="fa-solid fa-award"></i> Registered AI Pioneer #<span id="registered-id">8492</span>
-              </div>
-              <button id="another-response-btn" class="btn btn-secondary">Submit Another Response</button>
             </div>
           </div>
 
-        </div>
-      </div>
-    </section>
+          <!-- Card 4: Tidied Substitution & Target Vocab -->
+          <div class="note-card glass-panel full-width-card">
+            <div class="note-card-header">
+              <span class="note-tag tag-emerald">Live Class Substitution Summary</span>
+              <h3><i class="fa-solid fa-rotate"></i> Targeted Sentence Transformations</h3>
+            </div>
+            <div class="note-card-body">
+              <div class="transform-grid">
+                <!-- Set 1 -->
+                <div class="transform-box">
+                  <div class="tf-original">
+                    <span class="tf-label">Original Draft:</span>
+                    <p>"My hometown is famous for good food and quiet parks."</p>
+                  </div>
+                  <div class="tf-upgraded">
+                    <span class="tf-label">Tidied Band 7.5+ Upgrades:</span>
+                    <ul>
+                      <li><strong class="color-emerald">mouth-watering</strong> (instead of <em>good food</em>)</li>
+                      <li><strong class="color-emerald">serene</strong> (instead of <em>quiet</em>)</li>
+                      <li><strong class="color-emerald">escape the hustle and bustle</strong> (describing the key advantage)</li>
+                    </ul>
+                  </div>
+                </div>
 
-    <!-- Live Pulse Dashboard Section -->
-    <section id="dashboard-section" class="dashboard-section">
-      <div class="section-container">
-        <div class="section-header text-center">
-          <span class="badge-sub">Live Analytics</span>
-          <h2>School AI <span class="gradient-text">Pulse & Sentiment</span></h2>
-          <p>Real-time aggregated results from students nationwide.</p>
-        </div>
-
-        <div class="dashboard-grid">
-          <!-- Card 1: AI Frequency Distribution -->
-          <div class="dashboard-card glass-card">
-            <div class="dash-header">
-              <h3><i class="fa-solid fa-chart-column"></i> How Often Students Use AI</h3>
-              <span class="dash-tag">Live Feed</span>
-            </div>
-            <div class="bar-chart-list" id="freq-chart-list">
-              <!-- Rendered dynamically -->
-            </div>
-          </div>
-
-          <!-- Card 2: Top AI Tools Leaderboard -->
-          <div class="dashboard-card glass-card">
-            <div class="dash-header">
-              <h3><i class="fa-solid fa-trophy"></i> Most Popular Student AI Tools</h3>
-              <span class="dash-tag">Rankings</span>
-            </div>
-            <div class="tool-rank-list" id="tool-rank-list">
-              <!-- Rendered dynamically -->
-            </div>
-          </div>
-
-          <!-- Card 3: Exam Stance Breakdown -->
-          <div class="dashboard-card glass-card">
-            <div class="dash-header">
-              <h3><i class="fa-solid fa-gavel"></i> Exam AI Policy Votes</h3>
-              <span class="dash-tag">Student Verdict</span>
-            </div>
-            <div class="stance-container" id="stance-container">
-              <!-- Rendered dynamically -->
+                <!-- Set 2 -->
+                <div class="transform-box">
+                  <div class="tf-original">
+                    <span class="tf-label">Original Draft:</span>
+                    <p>"I go shopping when I am free because it makes me happy."</p>
+                  </div>
+                  <div class="tf-upgraded">
+                    <span class="tf-label">Tidied Band 7.5+ Upgrades:</span>
+                    <ul>
+                      <li><strong class="color-emerald">whenever I have a spare moment</strong> (instead of <em>when free</em>)</li>
+                      <li><strong class="color-emerald">unwind & recharge my batteries</strong> (instead of <em>makes me happy</em>)</li>
+                      <li><strong class="color-emerald">restore / recover energy</strong> (synonyms for deep relaxation)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- Student Vibe Wall Section -->
-    <section id="vibes-section" class="vibes-section">
-      <div class="section-container">
-        <div class="section-header text-center">
-          <span class="badge-sub">Community Feed</span>
-          <h2>The <span class="gradient-text">Student Vibe Wall</span></h2>
-          <p>Unfiltered quotes and hot takes directly from real students!</p>
+      <!-- TAB 3: THE UPGRADE VAULT -->
+      <section id="upgrade-vault" class="tab-content">
+        <div class="section-header">
+          <div>
+            <span class="chip chip-emerald">Interactive Vocabulary Vault</span>
+            <h2>IELTS Band 7.5+ Phrase Bank</h2>
+            <p class="section-desc">Click any card to turn it over, listen to native audio pronunciation, or test yourself.</p>
+          </div>
+          <div class="vault-filters">
+            <button class="filter-btn active" data-filter="all">All Topics</button>
+            <button class="filter-btn" data-filter="places">Places & Food</button>
+            <button class="filter-btn" data-filter="freetime">Free Time</button>
+            <button class="filter-btn" data-filter="work">Work & Life</button>
+          </div>
         </div>
 
-        <div class="vibe-cards-grid" id="vibe-cards-grid">
-          <!-- Rendered dynamically -->
+        <div class="vault-cards-grid" id="vaultGrid">
+          <!-- Cards will be populated by JS -->
         </div>
+      </section>
+
+      <!-- TAB 4: PART 2 MOCK DRILL -->
+      <section id="part2-drill" class="tab-content">
+        <div class="section-header">
+          <div>
+            <span class="chip chip-rose">Live Exam Drill</span>
+            <h2>Part 2 Cue Card Challenge Simulator</h2>
+            <p class="section-desc">Simulate authentic IELTS Part 2 testing conditions with prep and speaking timers.</p>
+          </div>
+        </div>
+
+        <div class="simulator-layout">
+          <div class="cue-card-box glass-panel">
+            <div class="cue-card-badge">IELTS Speaking Part 2 Task Card</div>
+            <h3 class="cue-title">Describe a place you like to visit in your free time.</h3>
+            <p class="cue-sub">You should say:</p>
+            <ul class="cue-bullets">
+              <li><i class="fa-solid fa-location-dot"></i> Where it is</li>
+              <li><i class="fa-solid fa-calendar-days"></i> How often you go there</li>
+              <li><i class="fa-solid fa-person-running"></i> What you do there</li>
+              <li><i class="fa-solid fa-heart"></i> And explain why you like visiting this place</li>
+            </ul>
+
+            <div class="target-req-box">
+              <span class="req-title"><i class="fa-solid fa-bullseye"></i> Challenge Requirement:</span>
+              <p>You must use at least <strong>3 upgraded phrases</strong> from today's lesson during your 1-2 minute talk!</p>
+            </div>
+          </div>
+
+          <div class="timer-controls-box glass-panel">
+            <div class="timer-display-container">
+              <div class="timer-mode-label" id="timerModeLabel">Prep Time (1 Min)</div>
+              <div class="timer-clock" id="timerClock">01:00</div>
+              <div class="timer-progress-bar"><div class="timer-progress-fill" id="timerFill"></div></div>
+            </div>
+
+            <div class="timer-actions">
+              <button class="btn-primary" id="startPrepBtn"><i class="fa-solid fa-hourglass-start"></i> Start 1-Min Prep</button>
+              <button class="btn-secondary" id="startSpeakBtn"><i class="fa-solid fa-microphone"></i> Start 2-Min Speech</button>
+              <button class="btn-outline" id="resetTimerBtn"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+            </div>
+
+            <!-- Interactive Notes Scratchpad -->
+            <div class="scratchpad-box mt-4">
+              <label for="prepNotes"><strong><i class="fa-solid fa-pencil"></i> Quick Notes Scratchpad (1 Min Prep):</strong></label>
+              <textarea id="prepNotes" placeholder="Write keywords here during prep... e.g.: serene, mouth-watering, escape the hustle and bustle, recharge my batteries..."></textarea>
+            </div>
+
+            <!-- Vocabulary Checklist -->
+            <div class="vocab-checklist mt-3">
+              <span>Mark phrases used:</span>
+              <div class="checkbox-tags">
+                <label><input type="checkbox" class="target-chk"> Bustling metropolis</label>
+                <label><input type="checkbox" class="target-chk"> Mouth-watering</label>
+                <label><input type="checkbox" class="target-chk"> Serene place</label>
+                <label><input type="checkbox" class="target-chk"> Escape the hustle and bustle</label>
+                <label><input type="checkbox" class="target-chk"> Unwind</label>
+                <label><input type="checkbox" class="target-chk"> Recharge my batteries</label>
+                <label><input type="checkbox" class="target-chk"> In close proximity to</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: PRACTICE & HOMEWORK -->
+      <section id="practice-homework" class="tab-content">
+        <div class="section-header">
+          <div>
+            <span class="chip chip-indigo">Take-Home & Practice</span>
+            <h2>Interactive Sentence Upgrade Practice & Homework</h2>
+            <p class="section-desc">Test your understanding by re-writing basic statements into Band 7.5+ expressions.</p>
+          </div>
+        </div>
+
+        <div class="practice-interactive-grid">
+          <!-- Upgrade Generator Tool -->
+          <div class="generator-box glass-panel">
+            <h3><i class="fa-solid fa-wand-magic-sparkles gradient-icon"></i> Instant Sentence Upgrade Interactive Tool</h3>
+            <p>Select a basic sentence below to see live Band 7.5+ collocation upgrades:</p>
+
+            <div class="select-sentence-group">
+              <select id="sentenceSelector" class="custom-select">
+                <option value="1">"The city is very crowded and busy."</option>
+                <option value="2">"The food is very delicious."</option>
+                <option value="3">"It's quiet and peaceful."</option>
+                <option value="4">"I really like listening to music."</option>
+                <option value="5">"It makes me feel happy/relaxed."</option>
+                <option value="6">"I have a lot of work / hard work."</option>
+                <option value="7">"It's very difficult."</option>
+              </select>
+            </div>
+
+            <div id="upgradeOutputBox" class="output-display-box">
+              <!-- Dynamically updated by JS -->
+            </div>
+          </div>
+
+          <!-- Take-home task tracker -->
+          <div class="homework-tracker-box glass-panel">
+            <h3><i class="fa-solid fa-list-check"></i> Take-Home Task Tracker</h3>
+            <p>Choose 5 new phrases and write your own Part 1 responses before the next session:</p>
+
+            <div class="hw-input-list">
+              <div class="hw-input-row">
+                <span class="hw-num">1</span>
+                <input type="text" class="hw-input" placeholder="e.g. Phrase: Serene place -> Response: My local park is a serene place...">
+              </div>
+              <div class="hw-input-row">
+                <span class="hw-num">2</span>
+                <input type="text" class="hw-input" placeholder="e.g. Phrase: Recharge my batteries -> Response: Watching movies helps me...">
+              </div>
+              <div class="hw-input-row">
+                <span class="hw-num">3</span>
+                <input type="text" class="hw-input" placeholder="e.g. Phrase: Heavy workload -> Response: Recently I've had a heavy workload...">
+              </div>
+              <div class="hw-input-row">
+                <span class="hw-num">4</span>
+                <input type="text" class="hw-input" placeholder="e.g. Phrase: In close proximity to -> Response: My home is in close proximity to...">
+              </div>
+              <div class="hw-input-row">
+                <span class="hw-num">5</span>
+                <input type="text" class="hw-input" placeholder="e.g. Phrase: Steep learning curve -> Response: Learning Python was a steep...">
+              </div>
+            </div>
+
+            <button class="btn-primary mt-3" id="saveHwBtn"><i class="fa-solid fa-floppy-disk"></i> Save Homework Responses locally</button>
+          </div>
+
+          <!-- Next Topic Preference -->
+          <div class="next-topic-box glass-panel full-width-card">
+            <h3><i class="fa-solid fa-compass"></i> Select Topic Focus for Next Session</h3>
+            <p>Which vocabulary topic would you like to master in our next class?</p>
+            <div class="topic-choices">
+              <label class="topic-choice-card">
+                <input type="radio" name="nextTopic" value="Technology" checked>
+                <div class="choice-content">
+                  <i class="fa-solid fa-microchip choice-icon"></i>
+                  <h4>Technology & AI</h4>
+                  <p>Cutting-edge tech, digital transformation, social media vocabulary.</p>
+                </div>
+              </label>
+
+              <label class="topic-choice-card">
+                <input type="radio" name="nextTopic" value="Environment">
+                <div class="choice-content">
+                  <i class="fa-solid fa-leaf choice-icon"></i>
+                  <h4>Environment & Climate</h4>
+                  <p>Sustainability, eco-friendly habits, pollution, nature collocations.</p>
+                </div>
+              </label>
+
+              <label class="topic-choice-card">
+                <input type="radio" name="nextTopic" value="Education">
+                <div class="choice-content">
+                  <i class="fa-solid fa-book-open-reader choice-icon"></i>
+                  <h4>Education & Career</h4>
+                  <p>Academic achievements, workplace culture, skill development phrases.</p>
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-container">
+        <p>© 2026 IELTS Speaking Vocabulary Upgrade Hub | Tailored for New Student</p>
+        <p class="repo-link">Repository: <a href="https://github.com/log210788/aistudent" target="_blank" rel="noopener">github.com/log210788/aistudent</a></p>
       </div>
-    </section>
-  </main>
-
-  <!-- Firebase Configuration Modal -->
-  <div id="firebase-modal" class="modal-overlay hidden">
-    <div class="modal-card glass-card">
-      <div class="modal-header">
-        <h3><i class="fa-solid fa-database"></i> Firebase Database Setup</h3>
-        <button id="close-modal-btn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-
-      <div class="modal-body">
-        <p class="modal-intro">
-          This site currently operates with <strong>Smart Local Fallback</strong>. All survey answers and emails are saved in browser state.
-        </p>
-        <p class="modal-intro">
-          To sync live to your own <strong>Firebase Cloud Firestore</strong>, paste your Firebase web project configuration snippet below:
-        </p>
-
-        <form id="firebase-config-form">
-          <div class="form-group">
-            <label for="fb-apiKey">API Key</label>
-            <input type="text" id="fb-apiKey" placeholder="AIzaSy..." />
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fb-authDomain">Auth Domain</label>
-              <input type="text" id="fb-authDomain" placeholder="my-app.firebaseapp.com" />
-            </div>
-            <div class="form-group">
-              <label for="fb-projectId">Project ID</label>
-              <input type="text" id="fb-projectId" placeholder="my-app-id" />
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label for="fb-storageBucket">Storage Bucket</label>
-              <input type="text" id="fb-storageBucket" placeholder="my-app.appspot.com" />
-            </div>
-            <div class="form-group">
-              <label for="fb-appId">App ID</label>
-              <input type="text" id="fb-appId" placeholder="1:123456:web:abcd..." />
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <button type="button" id="use-demo-db-btn" class="btn btn-outline">
-              <i class="fa-solid fa-bolt"></i> Use Local Storage (Demo)
-            </button>
-            <button type="submit" class="btn btn-primary">
-              <i class="fa-solid fa-floppy-disk"></i> Save & Connect Firebase
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
+    </footer>
   </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-container">
-      <div class="footer-brand">
-        <div class="logo-icon"><i class="fa-solid fa-brain-circuit"></i></div>
-        <span>FutureMind AI @ School</span>
-      </div>
-      <p class="footer-copy">© 2026 Student AI Voice & Research Project. Built with Firebase & Vite.</p>
-    </div>
-  </footer>
 
   <script type="module" src="./src/app.js"></script>
 </body>
