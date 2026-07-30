@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>British Tic Tac Toe</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lora:wght@400;600&display=swap');
+
+        :root {
+            --royal-blue: #012169;
+            --brit-red: #C8102E;
+            --brit-white: #FFFFFF;
+            --gold: #CFB53B;
+            --dark-navy: #0a1628;
+            --cream: #faf6ee;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            background: var(--cream);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(1,33,105,0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(200,16,46,0.04) 0%, transparent 50%);
+        }
+
+        header {
+            background: var(--royal-blue);
+            width: 100%;
+            text-align: center;
+            padding: 24px 16px 18px;
+            border-bottom: 4px solid var(--gold);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.4rem;
+            color: var(--brit-white);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        header h1 span.crown {
+            color: var(--gold);
+            font-size: 2rem;
+        }
+
+        header p {
+            color: var(--gold);
+            font-size: 0.95rem;
+            margin-top: 4px;
+            letter-spacing: 1.5px;
+            font-style: italic;
+        }
+
+        .game-container {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            background: var(--dark-navy);
+            color: var(--brit-white);
+            padding: 12px 32px;
+            border-radius: 50px;
+            font-size: 1.15rem;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            min-width: 320px;
+            text-align: center;
+        }
+
+        .status-bar .icon {
+            font-size: 1.4rem;
+        }
+
+        .scoreboard {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .score-item {
+            text-align: center;
+            padding: 10px 22px;
+            border-radius: 12px;
+            min-width: 100px;
+        }
+
+        .score-item.crown-score {
+            background: linear-gradient(135deg, var(--royal-blue), #1a3a7a);
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+
+        .score-item.tea-score {
+            background: linear-gradient(135deg, var(--brit-red), #e0354f);
+            color: var(--brit-white);
+            border: 2px solid var(--brit-white);
+        }
+
+        .score-item.draw-score {
+            background: var(--dark-navy);
+            color: #aaa;
+            border: 2px solid #555;
+        }
+
+        .score-item .score-icon {
+            font-size: 1.6rem;
+            display: block;
+        }
+
+        .score-item .score-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .score-item .score-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: var(--royal-blue);
+            padding: 6px;
+            border-radius: 16px;
+            box-shadow:
+                0 8px 32px rgba(1,33,105,0.3),
+                inset 0 0 0 3px var(--gold);
+        }
+
+        .cell {
+            width: 110px;
+            height: 110px;
+            background: var(--cream);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 3.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cell:hover:not(.taken) {
+            background: #f0eadb;
+            transform: scale(1.04);
+        }
+
+        .cell.taken {
+            cursor: default;
+        }
+
+        .cell.crown {
+            color: var(--royal-blue);
+            animation: placeAnim 0.35s ease-out;
+        }
+
+        .cell.tea {
+            color: var(--brit-red);
+            animation: placeAnim 0.35s ease-out;
+        }
+
+        .cell.win-cell {
+            background: var(--gold) !important;
+            animation: winPulse 0.6s ease-in-out infinite alternate;
+        }
+
+        @keyframes placeAnim {
+            0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+            60% { transform: scale(1.2) rotate(10deg); }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+
+        @keyframes winPulse {
+            from { box-shadow: inset 0 0 10px rgba(0,0,0,0.1); }
+            to { box-shadow: inset 0 0 25px rgba(0,0,0,0.2); transform: scale(1.05); }
+        }
+
+        .btn-area {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            font-family: 'Playfair Display', serif;
+            padding: 12px 34px;
+            font-size: 1rem;
+            border: 2px solid var(--royal-blue);
+            background: var(--royal-blue);
+            color: var(--gold);
+            border-radius: 50px;
+            cursor: pointer;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-weight: 700;
+        }
+
+        .btn:hover {
+            background: var(--gold);
+            color: var(--royal-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+        }
+
+        .btn.reset-btn {
+            background: var(--brit-red);
+            border-color: var(--brit-red);
+            color: var(--brit-white);
+        }
+
+        .btn.reset-btn:hover {
+            background: #a00d24;
+            border-color: #a00d24;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 6px;
+            background: var(--dark-navy);
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .mode-btn {
+            font-family: 'Lora', serif;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            background: transparent;
+            color: #999;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+        }
+
+        .mode-btn.active {
+            background: var(--royal-blue);
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .mode-btn:hover:not(.active) {
+            color: var(--brit-white);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 18px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            letter-spacing: 1px;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(10,22,40,0.85);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .overlay.show {
+            display: flex;
+        }
+
+        .overlay-box {
+            background: var(--cream);
+            border: 4px solid var(--gold);
+            border-radius: 20px;
+            padding: 40px 50px;
+            text-align: center;
+            animation: overlayIn 0.4s ease-out;
+        }
+
+        @keyframes overlayIn {
+            from { transform: scale(0.7) translateY(40px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .overlay-box .result-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        .overlay-box h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--royal-blue);
+            margin-bottom: 6px;
+        }
+
+        .overlay-box p {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 22px;
+        }
+
+        @media (max-width: 500px) {
+            header h1 { font-size: 1.5rem; }
+            .cell { width: 85px; height: 85px; font-size: 2.4rem; }
+            .score-item { min-width: 75px; padding: 8px 12px; }
+            .score-item .score-num { font-size: 1.4rem; }
+            .status-bar { font-size: 0.95rem; min-width: auto; padding: 10px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><span class="crown">&#9819;</span> Royal Noughts &amp; Crosses <span class="crown">&#9819;</span></h1>
+        <p>A Jolly Good Game of Strategy</p>
+    </header>
+
+    <div class="game-container">
+
+        <div class="mode-toggle">
+            <button class="mode-btn active" onclick="setMode('pvp')">Two Players</button>
+            <button class="mode-btn" onclick="setMode('cpu')">vs Computer</button>
+        </div>
+
+        <div class="scoreboard">
+            <div class="score-item crown-score">
+                <span class="score-icon">&#128081;</span>
+                <span class="score-label">Crown</span>
+                <span class="score-num" id="score-x">0</span>
+            </div>
+            <div class="score-item draw-score">
+                <span class="score-icon">&#9878;</span>
+                <span class="score-label">Draws</span>
+                <span class="score-num" id="score-d">0</span>
+            </div>
+            <div class="score-item tea-score">
+                <span class="score-icon">&#9749;</span>
+                <span class="score-label">Teacup</span>
+                <span class="score-num" id="score-o">0</span>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span class="icon" id="status-icon">&#128081;</span>
+            <span id="status-text">Crown's turn — God Save the King!</span>
+        </div>
+
+        <div class="board" id="board">
+            <button class="cell" data-index="0" onclick="play(0)"></button>
+            <button class="cell" data-index="1" onclick="play(1)"></button>
+            <button class="cell" data-index="2" onclick="play(2)"></button>
+            <button class="cell" data-index="3" onclick="play(3)"></button>
+            <button class="cell" data-index="4" onclick="play(4)"></button>
+            <button class="cell" data-index="5" onclick="play(5)"></button>
+            <button class="cell" data-index="6" onclick="play(6)"></button>
+            <button class="cell" data-index="7" onclick="play(7)"></button>
+            <button class="cell" data-index="8" onclick="play(8)"></button>
+        </div>
+
+        <div class="btn-area">
+            <button class="btn" onclick="newRound()">New Round</button>
+            <button class="btn reset-btn" onclick="resetAll()">Reset Scores</button>
+        </div>
+
+    </div>
+
+    <div class="overlay" id="overlay">
+        <div class="overlay-box">
+            <div class="result-icon" id="result-icon"></div>
+            <h2 id="result-title"></h2>
+            <p id="result-msg"></p>
+            <button class="btn" onclick="closeOverlay(); newRound();">Play Again</button>
+        </div>
+    </div>
+
+    <footer>&#127468;&#127463; God Save the King &bull; Royal Noughts &amp; Crosses &copy; 2026</footer>
+
+    <script>
+        const CROWN = '&#128081;';  // Crown emoji
+        const TEA   = '&#9749;';    // Teacup emoji
+        const WIN_LINES = [
+            [0,1,2],[3,4,5],[6,7,8],
+            [0,3,6],[1,4,7],[2,5,8],
+            [0,4,8],[2,4,6]
+        ];
+
+        const quips = {
+            crownWin: [
+                "Long live the Crown!",
+                "A royal victory, splendid!",
+                "The monarchy triumphs!",
+                "Pip pip, the Crown prevails!",
+                "Rule Britannia!"
+            ],
+            teaWin: [
+                "A proper cuppa wins the day!",
+                "Tea time is victorious!",
+                "The kettle has spoken!",
+                "Brilliant — tea conquers all!",
+                "Time for a victory brew!"
+            ],
+            draw: [
+                "A gentleman's stalemate.",
+                "Perfectly balanced, how British.",
+                "Nobody loses — how civilised.",
+                "The Queen would approve of this draw.",
+                "A draw — let's settle it over tea."
+            ]
+        };
+
+        let board = Array(9).fill(null);
+        let currentPlayer = 'X'; // X = Crown, O = Tea
+        let gameActive = true;
+        let mode = 'pvp';
+        let scores = { X: 0, O: 0, D: 0 };
+
+        const cells = document.querySelectorAll('.cell');
+        const statusText = document.getElementById('status-text');
+        const statusIcon = document.getElementById('status-icon');
+
+        function randomQuip(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        function setMode(m) {
+            mode = m;
+            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.mode-btn[onclick="setMode('${m}')"]`).classList.add('active');
+            resetAll();
+        }
+
+        function updateStatus() {
+            if (!gameActive) return;
+            if (currentPlayer === 'X') {
+                statusIcon.innerHTML = CROWN;
+                statusText.textContent = "Crown's turn — God Save the King!";
+            } else {
+                statusIcon.innerHTML = TEA;
+                statusText.textContent = "Teacup's turn — Fancy a brew?";
+            }
+        }
+
+        function updateScores() {
+            document.getElementById('score-x').textContent = scores.X;
+            document.getElementById('score-o').textContent = scores.O;
+            document.getElementById('score-d').textContent = scores.D;
+        }
+
+        function checkWin(b, player) {
+            for (let line of WIN_LINES) {
+                if (line.every(i => b[i] === player)) return line;
+            }
+            return null;
+        }
+
+        function play(index) {
+            if (!gameActive || board[index] !== null) return;
+            if (mode === 'cpu' && currentPlayer === 'O') return;
+
+            makeMove(index, currentPlayer);
+
+            const winLine = checkWin(board, currentPlayer);
+            if (winLine) {
+                endGame(currentPlayer, winLine);
+                return;
+            }
+            if (board.every(c => c !== null)) {
+                endGame(null, null);
+                return;
+            }
+
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            updateStatus();
+
+            if (mode === 'cpu' && currentPlayer === 'O' && gameActive) {
+                setTimeout(cpuMove, 450);
+            }
+        }
+
+        function makeMove(index, player) {
+            board[index] = player;
+            const cell = cells[index];
+            cell.innerHTML = player === 'X' ? CROWN : TEA;
+            cell.classList.add('taken', player === 'X' ? 'crown' : 'tea');
+        }
+
+        function cpuMove() {
+            if (!gameActive) return;
+
+            // Try to win
+            let move = findBestMove('O');
+            // Block opponent
+            if (move === null) move = findBestMove('X');
+            // Take centre
+            if (move === null && board[4] === null) move = 4;
+            // Take a corner
+            if (move === null) {
+                const corners = [0,2,6,8].filter(i => board[i] === null);
+                if (corners.length) move = corners[Math.floor(Math.random() * corners.length)];
+            }
+            // Any remaining
+            if (move === null) {
+                const empty = board.map((v,i) => v === null ? i : null).filter(v => v !== null);
+                move = empty[Math.floor(Math.random() * empty.length)];
+            }
+
+            makeMove(move, 'O');
+
+            const winLine = checkWin(board, 'O');
+            if (winLine) {
+                endGame('O', winLine);
+                return;
+            }
+            if (board.every(c => c !== null)) {
+                endGame(null, null);
+                return;
+            }
+
+            currentPlayer = 'X';
+            updateStatus();
+        }
+
+        function findBestMove(player) {
+            for (let line of WIN_LINES) {
+                const vals = line.map(i => board[i]);
+                if (vals.filter(v => v === player).length === 2 && vals.includes(null)) {
+                    return line[vals.indexOf(null)];
+                }
+            }
+            return null;
+        }
+
+        function endGame(winner, winLine) {
+            gameActive = false;
+
+            if (winLine) {
+                winLine.forEach(i => cells[i].classList.add('win-cell'));
+            }
+
+            if (winner === 'X') {
+                scores.X++;
+                statusIcon.innerHTML = CROWN;
+                statusText.textContent = "Crown wins!";
+                showOverlay(CROWN, "Crown Wins!", randomQuip(quips.crownWin));
+            } else if (winner === 'O') {
+                scores.O++;
+                statusIcon.innerHTML = TEA;
+                statusText.textContent = "Teacup wins!";
+                showOverlay(TEA, "Teacup Wins!", randomQuip(quips.teaWin));
+            } else {
+                scores.D++;
+                statusIcon.innerHTML = '&#9878;';
+                statusText.textContent = "It's a draw!";
+                showOverlay('&#9878;', "It's a Draw!", randomQuip(quips.draw));
+            }
+
+            updateScores();
+        }
+
+        function showOverlay(icon, title, msg) {
+            document.getElementById('result-icon').innerHTML = icon;
+            document.getElementById('result-title').textContent = title;
+            document.getElementById('result-msg').textContent = msg;
+            setTimeout(() => document.getElementById('overlay').classList.add('show'), 600);
+        }
+
+        function closeOverlay() {
+            document.getElementById('overlay').classList.remove('show');
+        }
+
+        function newRound() {
+            board = Array(9).fill(null);
+            currentPlayer = 'X';
+            gameActive = true;
+            cells.forEach(cell => {
+                cell.innerHTML = '';
+                cell.className = 'cell';
+            });
+            updateStatus();
+        }
+
+        function resetAll() {
+            scores = { X: 0, O: 0, D: 0 };
+            updateScores();
+            newRound();
+            closeOverlay();
+        }
+    </script>
+
+</body>
+</html>

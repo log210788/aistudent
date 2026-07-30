@@ -101,6 +101,9 @@
       <button class="tab-btn" data-tab="practice-homework">
         <i class="fa-solid fa-dumbbell"></i> Practice & Homework
       </button>
+      <button class="tab-btn" onclick="window.open('./present perfect/explain.html', '_blank')">
+        <i class="fa-solid fa-book-open"></i> Present Perfect
+      </button>
     </nav>
 
     <!-- Main Content Area -->
@@ -108,19 +111,39 @@
 
       <!-- TAB 1: LESSON PLAN ROADMAP -->
       <section id="lesson-plan" class="tab-content active">
-        <div class="section-header">
+        <div class="section-header" style="flex-wrap: wrap; gap: 15px;">
           <div>
             <span class="chip chip-purple">Official Curriculum</span>
             <h2>Lesson Plan: Upgrading Vocabulary for IELTS Speaking</h2>
             <p class="section-desc">Level: <strong>Intermediate / Upper-Intermediate</strong> | Focus: <strong>IELTS Speaking Part 1 & Part 2</strong></p>
           </div>
-          <div class="goal-box">
-            <i class="fa-solid fa-bullseye goal-icon"></i>
-            <div>
-              <strong>Primary Goal:</strong> Replace simple words and Thai-transcription habits with precise collocations, idiomatic phrases, and descriptive adjectives.
+          <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap; width: 100%; justify-content: space-between;">
+            <div class="goal-box" style="margin: 0; flex: 1;">
+              <i class="fa-solid fa-bullseye goal-icon"></i>
+              <div>
+                <strong>Primary Goal:</strong> Replace simple words and Thai-transcription habits with precise collocations, idiomatic phrases, and descriptive adjectives.
+              </div>
             </div>
+            <button class="btn-primary" id="ankiLessonBtn"><i class="fa-solid fa-cloud-arrow-down"></i> Download Anki Flashcards</button>
           </div>
         </div>
+
+        <!-- Anki Instructions Box -->
+        <details class="anki-instructions glass-panel" style="margin-bottom: 25px; border-left: 4px solid var(--accent-emerald); padding: 15px; cursor: pointer;">
+          <summary style="font-weight: 600; font-size: 1.05rem; color: var(--accent-emerald-light); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-circle-question"></i> How to import these flashcards to Anki?
+          </summary>
+          <div style="margin-top: 15px; cursor: default;">
+            <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6; font-size: 0.95rem;">
+              <li><a href="https://apps.ankiweb.net/" target="_blank" rel="noopener" style="color: var(--accent-emerald-light); text-decoration: underline;">Download and install Anki</a> if you haven't already.</li>
+              <li>Click the Download Anki button above to save the <code>.txt</code> file to your computer.</li>
+              <li>Open Anki, and click <strong>File &gt; Import...</strong> (or press <kbd>Ctrl+I</kbd> / <kbd>Cmd+I</kbd>).</li>
+              <li>Select the downloaded file. In the import window, ensure the <strong>Field separator</strong> is set to <strong>Tab</strong>.</li>
+              <li>Click <strong>Import</strong> and you're ready to start studying!</li>
+            </ol>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><i class="fa-solid fa-book"></i> For more details, see the <a href="https://docs.ankiweb.net/importing.html" target="_blank" rel="noopener" style="color: var(--accent-emerald-light); text-decoration: underline;">official Anki importing guide</a>.</p>
+          </div>
+        </details>
 
         <div class="phases-timeline">
           <!-- Phase 1 -->
@@ -345,8 +368,28 @@
             <h2>Today's Lesson Notes (Tidied & Structured)</h2>
             <p class="section-desc">Key takeaways, vocabulary expansions, grammar clarifications, and pronunciation notes from today's session.</p>
           </div>
-          <button class="btn-secondary" id="printNotesBtn"><i class="fa-solid fa-print"></i> Export Notes</button>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn-primary" id="ankiNotesBtn"><i class="fa-solid fa-cloud-arrow-down"></i> Export Anki Deck</button>
+            <button class="btn-secondary" id="printNotesBtn"><i class="fa-solid fa-print"></i> Export Notes</button>
+          </div>
         </div>
+
+        <!-- Anki Instructions Box -->
+        <details class="anki-instructions glass-panel" style="margin-bottom: 25px; border-left: 4px solid var(--accent-emerald); padding: 15px; cursor: pointer;">
+          <summary style="font-weight: 600; font-size: 1.05rem; color: var(--accent-emerald-light); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-circle-question"></i> How to import these flashcards to Anki?
+          </summary>
+          <div style="margin-top: 15px; cursor: default;">
+            <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6; font-size: 0.95rem;">
+              <li><a href="https://apps.ankiweb.net/" target="_blank" rel="noopener" style="color: var(--accent-emerald-light); text-decoration: underline;">Download and install Anki</a> if you haven't already.</li>
+              <li>Click the Download Anki button above to save the <code>.txt</code> file to your computer.</li>
+              <li>Open Anki, and click <strong>File &gt; Import...</strong> (or press <kbd>Ctrl+I</kbd> / <kbd>Cmd+I</kbd>).</li>
+              <li>Select the downloaded file. In the import window, ensure the <strong>Field separator</strong> is set to <strong>Tab</strong>.</li>
+              <li>Click <strong>Import</strong> and you're ready to start studying!</li>
+            </ol>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><i class="fa-solid fa-book"></i> For more details, see the <a href="https://docs.ankiweb.net/importing.html" target="_blank" rel="noopener" style="color: var(--accent-emerald-light); text-decoration: underline;">official Anki importing guide</a>.</p>
+          </div>
+        </details>
 
         <div class="notes-grid">
           <!-- Card 1: Geography & Proximity -->
@@ -506,13 +549,31 @@
             <h2>IELTS Band 7.5+ Phrase Bank</h2>
             <p class="section-desc">Click any card to turn it over, listen to native audio pronunciation, or test yourself.</p>
           </div>
-          <div class="vault-filters">
+          <div class="vault-filters" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
             <button class="filter-btn active" data-filter="all">All Topics</button>
             <button class="filter-btn" data-filter="places">Places & Food</button>
             <button class="filter-btn" data-filter="freetime">Free Time</button>
             <button class="filter-btn" data-filter="work">Work & Life</button>
+            <button class="btn-primary" id="ankiVaultBtn"><i class="fa-solid fa-cloud-arrow-down"></i> Download Anki Vault</button>
           </div>
         </div>
+
+        <!-- Anki Instructions Box -->
+        <details class="anki-instructions glass-panel" style="margin-bottom: 25px; border-left: 4px solid var(--accent-emerald); padding: 15px; cursor: pointer;">
+          <summary style="font-weight: 600; font-size: 1.05rem; color: var(--accent-emerald-light); display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-circle-question"></i> How to import these flashcards to Anki?
+          </summary>
+          <div style="margin-top: 15px; cursor: default;">
+            <ol style="margin-left: 20px; margin-bottom: 15px; line-height: 1.6; font-size: 0.95rem;">
+              <li><a href="https://apps.ankiweb.net/" target="_blank" rel="noopener" style="color: var(--accent-emerald-light); text-decoration: underline;">Download and install Anki</a> if you haven't already.</li>
+              <li>Click the Download Anki button above to save the <code>.txt</code> file to your computer.</li>
+              <li>Open Anki, and click <strong>File &gt; Import...</strong> (or press <kbd>Ctrl+I</kbd> / <kbd>Cmd+I</kbd>).</li>
+              <li>Select the downloaded file. In the import window, ensure the <strong>Field separator</strong> is set to <strong>Tab</strong>.</li>
+              <li>Click <strong>Import</strong> and you're ready to start studying!</li>
+            </ol>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;"><i class="fa-solid fa-book"></i> For more details, see the <a href="https://docs.ankiweb.net/importing.html" target="_blank" rel="noopener" style="color: var(--accent-emerald-light); text-decoration: underline;">official Anki importing guide</a>.</p>
+          </div>
+        </details>
 
         <div class="vault-cards-grid" id="vaultGrid">
           <!-- Cards will be populated by JS -->

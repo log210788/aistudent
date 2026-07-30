@@ -180,6 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initHomeworkStorage();
   initPrint();
+  initAnkiExport();
 });
 
 // --- Tab Navigation System ---
@@ -456,4 +457,79 @@ function initPrint() {
       window.print();
     });
   }
+}
+
+// --- Anki Export ---
+function initAnkiExport() {
+  const ankiLessonBtn = document.getElementById('ankiLessonBtn');
+  const ankiNotesBtn = document.getElementById('ankiNotesBtn');
+  const ankiVaultBtn = document.getElementById('ankiVaultBtn');
+
+  const exportHandler = () => {
+    generateAnkiDeck(UPGRADE_VAULT_DATA, 'IELTS_Speaking_Vocabulary_Upgrade');
+  };
+
+  if (ankiLessonBtn) ankiLessonBtn.addEventListener('click', exportHandler);
+  if (ankiNotesBtn) ankiNotesBtn.addEventListener('click', exportHandler);
+  
+  if (ankiVaultBtn) {
+    ankiVaultBtn.addEventListener('click', () => {
+      const activeFilterBtn = document.querySelector('.filter-btn.active');
+      const filter = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
+      
+      let dataToExport = UPGRADE_VAULT_DATA;
+      if (filter !== 'all') {
+        dataToExport = UPGRADE_VAULT_DATA.filter(item => item.category === filter);
+      }
+      
+      generateAnkiDeck(dataToExport, `IELTS_Vault_${filter}`);
+    });
+  }
+}
+
+function generateAnkiDeck(data, filenamePrefix) {
+  if (!data || data.length === 0) {
+    alert("No data available to export.");
+    return;
+  }
+  
+  // Format for Anki (Tab-separated values)
+  // Field 1: Front (Basic sentence)
+  // Field 2: Back (Upgraded sentence + Definition + Band)
+  
+  let tsvContent = "";
+  
+  data.forEach(item => {
+    const front = item.basic.replace(/\t/g, ' ').replace(/\n/g, ' ');
+    
+    // Formatting the back with HTML for Anki
+    let back = `<h3>${item.upgrade}</h3>`;
+    back += `<p><em>${item.definition}</em></p>`;
+    back += `<p><strong>Band:</strong> ${item.band}</p>`;
+    back += `<p><strong>Topic:</strong> ${item.topic}</p>`;
+    
+    // See if we have an example in GENERATOR_MAPPINGS
+    const genMappingKey = Object.keys(GENERATOR_MAPPINGS).find(
+      key => GENERATOR_MAPPINGS[key].basic === item.basic
+    );
+    if (genMappingKey) {
+      back += `<p><strong>Example:</strong> ${GENERATOR_MAPPINGS[genMappingKey].example}</p>`;
+    }
+    
+    // Escape tabs and newlines for TSV format
+    back = back.replace(/\t/g, ' ').replace(/\n/g, ' ');
+    
+    tsvContent += `${front}\t${back}\n`;
+  });
+  
+  const blob = new Blob([tsvContent], { type: 'text/plain;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", `${filenamePrefix}_Anki.txt`);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 }
