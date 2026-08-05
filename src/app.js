@@ -93,6 +93,51 @@ const UPGRADE_VAULT_DATA = [
     upgrade: 'It can be quite challenging / a steep learning curve.',
     definition: 'Demanding skills to overcome or requiring rapid new learning.',
     band: 'Band 8.0+'
+  },
+  {
+    id: 11,
+    category: 'unit1',
+    topic: 'Unit 1: Informal Conversations',
+    basic: 'Nice to meet you.',
+    upgrade: 'Great to finally meet you in person.',
+    definition: 'A warm, enthusiastic greeting for meeting someone for the first time.',
+    band: 'Band 7.5+'
+  },
+  {
+    id: 12,
+    category: 'unit1',
+    topic: 'Unit 1: Informal Conversations',
+    basic: 'How was your trip?',
+    upgrade: 'How was your journey here? / Did you have any trouble finding the place?',
+    definition: 'A natural, open-ended way to start small talk about travel or arrival.',
+    band: 'Band 7.5+'
+  },
+  {
+    id: 13,
+    category: 'unit1',
+    topic: 'Unit 1: Informal Conversations',
+    basic: 'Tell me about yourself.',
+    upgrade: 'What sort of day have you had so far? / Tell me more about that.',
+    definition: 'Prompts the speaker to elaborate without feeling interrogated.',
+    band: 'Band 8.0+'
+  },
+  {
+    id: 14,
+    category: 'unit1',
+    topic: 'Unit 1: Informal Conversations',
+    basic: 'I agree with you.',
+    upgrade: 'That sounds familiar—I also enjoy... / Oh really? I’m doing that as well.',
+    definition: 'Finds common ground naturally and builds rapport with your examiner.',
+    band: 'Band 8.0+'
+  },
+  {
+    id: 15,
+    category: 'unit1',
+    topic: 'Unit 1: Informal Conversations',
+    basic: 'It was good / fine.',
+    upgrade: 'Actually, my journey here was fairly smooth; I arrived right on time.',
+    definition: 'Expands a short 1-word answer into a fluent, detailed Band 7+ response.',
+    band: 'Band 7.5+'
   }
 ];
 
@@ -160,6 +205,24 @@ const GENERATOR_MAPPINGS = {
       { token: "hard", replacement: "challenging", note: "Professional tone" }
     ],
     example: "Adapting to advanced IELTS vocabulary presents a steep learning curve, but it's rewarding."
+  },
+  "8": {
+    basic: "It was fine / good.",
+    upgrade: "Actually, my journey here was fairly smooth; I took the morning train which was surprisingly quiet.",
+    breakdown: [
+      { token: "fine", replacement: "fairly smooth", note: "Natural adjective for travel" },
+      { token: "came here", replacement: "journey here", note: "Precise noun collocation" }
+    ],
+    example: "Actually, my journey here was fairly smooth; I took the morning train which was surprisingly quiet, so I arrived early."
+  },
+  "9": {
+    basic: "Yes, I had a busy day.",
+    upgrade: "Indeed! I’ve had quite a packed schedule today, but I’m really looking forward to this session.",
+    breakdown: [
+      { token: "busy day", replacement: "packed schedule", note: "High-level idiom/collocation" },
+      { token: "yes", replacement: "indeed / to be honest", note: "Varied discourse marker" }
+    ],
+    example: "To be honest, I’ve had quite a packed schedule today, but I'm feeling energized now."
   }
 };
 
